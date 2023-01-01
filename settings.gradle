@@ -1,0 +1,3 @@
+rootProject.name = 'java-react'
+include 'backend'
+include 'frontend'
