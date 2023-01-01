@@ -22,8 +22,7 @@ public class CarController {
 	private static List<Car> cars = Stream.of(new Car(1,"Alfa Romeo"),new Car(2,"Ferrari"),new Car(3,"Skoda")).collect(Collectors.toList());
 
 	@GetMapping(value="/cars.json",produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<StandardResponse<List<Car>>> list() throws Exception{
-		if(true)throw new Exception("AAA");
+	public ResponseEntity<StandardResponse<List<Car>>> list() {
 		return new ResponseEntity<StandardResponse<List<Car>>>(StandardResponse.success(cars), HttpStatus.OK);
 	}
 

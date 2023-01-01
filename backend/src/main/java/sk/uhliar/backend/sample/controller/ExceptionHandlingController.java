@@ -11,8 +11,8 @@ import sk.uhliar.backend.sample.utils.StandardResponse;
 public class ExceptionHandlingController {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExceptions(Exception exception, WebRequest webRequest) {
-      StandardResponse response = StandardResponse.failure(exception);
-      ResponseEntity<Object> entity = new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+      StandardResponse response = StandardResponse.failure("Exception occurred: " + exception.getMessage(),exception);
+      ResponseEntity<Object> entity = new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
       return entity;
     }
 }
