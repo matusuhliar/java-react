@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import sk.uhliar.backend.sample.utils.StandardResponse;
 
 @RestController
 @CrossOrigin
@@ -40,7 +41,7 @@ public class JwtAuthenticationController {
 
 		final String token = jwtTokenUtil.generateToken(userDetails);
 
-		return ResponseEntity.ok(new JwtResponse(token));
+		return ResponseEntity.ok(StandardResponse.success(token));
 	}
 
 	private void authenticate(String username, String password) throws Exception {
