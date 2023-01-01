@@ -43,7 +43,7 @@ public class WebSecurityConfig{
 	}
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
+    public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder bCryptPasswordEncoder) throws Exception {
         return http.getSharedObject(AuthenticationManagerBuilder.class)
         .userDetailsService(jwtUserDetailsService)
         .passwordEncoder(bCryptPasswordEncoder)
