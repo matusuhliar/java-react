@@ -1,23 +1,25 @@
 package sk.uhliar.backend.sample.modules.users.service;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
-import sk.uhliar.backend.sample.modules.users.model.AppUser;
+import sk.uhliar.backend.sample.modules.users.dao.UserDao;
+import sk.uhliar.backend.sample.modules.users.model.DTOUser;
 
 import java.util.List;
 
 @Service
 public class UserService {
 
-    private NamedParameterJdbcTemplate tpl;
+    private UserDao dao;
 
-    public UserService(NamedParameterJdbcTemplate tpl) {
-        this.tpl = tpl;
+    public UserService(UserDao dao) {
+        this.dao = dao;
     }
 
-    public List<AppUser> list() {
-        var rowMapper = BeanPropertyRowMapper.newInstance(AppUser.class);
-        return tpl.query("SELECT * FROM [User]", rowMapper);
+    public List<DTOUser> list() {
+        return dao.list();
+    }
+
+    public DTOUser loadUserByUsername(String username){
+        return dao.loadUserByUsername(username);
     }
 }

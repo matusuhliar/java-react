@@ -1,12 +1,10 @@
 package sk.uhliar.backend.sample.modules.users.model;
 
-public class AppUser {
+public class DTOUser {
     private int id;
     private String username;
     private String password;
     private String name;
-
-
     public int getId() {
         return id;
     }
