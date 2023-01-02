@@ -5,11 +5,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import sk.uhliar.backend.sample.modules.users.model.DTOUser;
+import sk.uhliar.backend.sample.modules.users.model.ApiUser;
 import sk.uhliar.backend.sample.modules.users.service.UserService;
 
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
@@ -22,12 +21,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		DTOUser user = this.userService.loadUserByUsername(username);
+		ApiUser user = this.userService.loadUserByUsername(username);
 		if (user!=null) {
 			return new User(
 				user.getUsername(),
 				user.getPassword(),
-				Stream.of(new JwtGrantedAuthority("ADMINISTRATOR")).collect(Collectors.toList())
+				user.getRoles().stream().map(r->new JwtGrantedAuthority(r.getKey())).collect(Collectors.toList())
 			);
 		} else {
 			throw new UsernameNotFoundException("User not found with username: " + username);

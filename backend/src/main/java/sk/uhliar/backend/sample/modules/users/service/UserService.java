@@ -2,7 +2,7 @@ package sk.uhliar.backend.sample.modules.users.service;
 
 import org.springframework.stereotype.Service;
 import sk.uhliar.backend.sample.modules.users.dao.UserDao;
-import sk.uhliar.backend.sample.modules.users.model.DTOUser;
+import sk.uhliar.backend.sample.modules.users.model.ApiUser;
 
 import java.util.List;
 
@@ -15,11 +15,11 @@ public class UserService {
         this.dao = dao;
     }
 
-    public List<DTOUser> list() {
+    public List<ApiUser> list() {
         return dao.list();
     }
 
-    public DTOUser loadUserByUsername(String username){
+    public ApiUser loadUserByUsername(String username){
         return dao.loadUserByUsername(username);
     }
 }

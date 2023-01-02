@@ -1,19 +1,17 @@
 package sk.uhliar.backend.sample.jwt;
 
-import java.io.IOException;
-import java.io.Serializable;
-
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
+import sk.uhliar.backend.sample.utils.Fail;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import sk.uhliar.backend.sample.utils.StandardResponse;
+import java.io.IOException;
+import java.io.Serializable;
 
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
@@ -26,7 +24,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 		response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 		ObjectMapper mapper = new ObjectMapper();
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.getWriter().write(mapper.writeValueAsString(StandardResponse.failure("Unauthorized")));
+		response.getWriter().write(mapper.writeValueAsString(Fail.create().message("UNAUTHORIZED")));
 		response.getWriter().flush();
 		response.getWriter().close();
 
