@@ -1,4 +1,4 @@
-package sk.uhliar.backend.sample.controller;
+package sk.uhliar.backend.sample.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
