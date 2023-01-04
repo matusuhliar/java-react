@@ -1,11 +1,13 @@
 import * as React from 'react';
-import {Alert, Box} from "@mui/material";
+import {Alert, Box, Divider, Typography} from "@mui/material";
 import "./Main.css"
 
 export default function Dashboard() {
 
     return (
         <Box className="app-area">
+            <Typography component="h2" variant="h5">Dashboard</Typography>
+            <Divider sx={{my:"10px"}}/>
             <Alert severity="info">
                 Welcome to <b>DMS</b>!
                 <br />
