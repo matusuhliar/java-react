@@ -17,3 +17,8 @@ body,html {
   overflow: auto;
   background: #333333;
 }
+
+input:-webkit-autofill + label {
+  font-size: 0.8rem !important;
+  transform: translateY(-140%);
+}

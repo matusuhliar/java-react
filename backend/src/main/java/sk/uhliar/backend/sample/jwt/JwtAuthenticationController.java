@@ -24,7 +24,7 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
-	@RequestMapping(value = "/authenticate",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+	@RequestMapping(value = "/authenticate.json",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestParam String username,@RequestParam String password) throws Exception {
 		authenticate(username, password);
 		final UserDetails userDetails = userDetailsService
