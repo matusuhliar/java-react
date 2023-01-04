@@ -9,15 +9,11 @@ body,html {
 *{
   font-family: "Roboto","Helvetica","Arial",sans-serif;
 }
-.root{
+#root{
   margin: 0px;
   padding: 0px;
   height: 100%;
   width: 100%;
   overflow: auto;
-  background: #2f2f2f;
-}
-.top-bar{
-  background: #2f2f2f !important;
-  height: 30px;
+  background: #333333;
 }

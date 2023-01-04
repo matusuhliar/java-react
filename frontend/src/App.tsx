@@ -14,7 +14,7 @@ export default function SignIn() {
   return (
       <ThemeProvider theme={theme}>
           <Container maxWidth="xs">
-              <Paper sx={{ flexGrow: 1, mt:'50px',padding:'10px', background: "#343434", color:"white"}}>
+              <Paper sx={{ flexGrow: 1, mt:'50px',padding:'10px', background: "rgba(6,91,175,0.85)", color:"white"}}>
                   DMS
               </Paper>
               <Paper sx={{ flexGrow: 1, padding:'10px'}}>
