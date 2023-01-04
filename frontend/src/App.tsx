@@ -1,54 +1,53 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {AppBar, IconButton, Toolbar} from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import {AppBar, Button, Container, Grid, Paper, TextField} from "@mui/material";
+
 
 const theme = createTheme({
-    palette: {
-        mode: 'light',
-    }
+    spacing: 8,
+    typography: {
+        fontSize: 12,
+    },
 });
 
 export default function SignIn() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-
   return (
-      <Box sx={{ flexGrow: 1 }}>
-          <AppBar position="static">
-              <Toolbar>
-                  <IconButton
-                      size="large"
-                      edge="start"
-                      color="inherit"
-                      aria-label="menu"
-                      sx={{ mr: 2 }}
-                  >
-                      <MenuIcon />
-                  </IconButton>
-                  <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                      Sample Page
-                  </Typography>
-                  <Button color="inherit">Login</Button>
-              </Toolbar>
-          </AppBar>
-      </Box>
+      <ThemeProvider theme={theme}>
+          <Container maxWidth="xs">
+              <Paper sx={{ flexGrow: 1, mt:'50px',padding:'10px', background: "#343434", color:"white"}}>
+                  DMS
+              </Paper>
+              <Paper sx={{ flexGrow: 1, padding:'10px'}}>
+                  <Grid container spacing={2}>
+                      <Grid item xs={12}>
+                          <TextField
+                              fullWidth={true}
+                              required
+                              id="outlined-required"
+                              label="Username"
+                              size="small"
+                          />
+                      </Grid>
+                      <Grid item xs={12}>
+                          <TextField
+                              fullWidth={true}
+                              required
+                              id="outlined-required"
+                              label="Password"
+                              type="password"
+                              size="small"
+                          />
+                      </Grid>
+                      <Grid item xs={6}>
+
+                      </Grid>
+                      <Grid item xs={6}>
+                          <Button fullWidth={true} variant="contained">Submit</Button>
+                      </Grid>
+                  </Grid>
+              </Paper>
+          </Container>
+      </ThemeProvider>
+
   );
 }

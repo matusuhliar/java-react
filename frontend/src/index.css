@@ -5,6 +5,10 @@ body,html {
   width: 100%;
   overflow: hidden;
 }
+
+*{
+  font-family: "Roboto","Helvetica","Arial",sans-serif;
+}
 .root{
   margin: 0px;
   padding: 0px;
