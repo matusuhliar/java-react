@@ -16,7 +16,6 @@ const ROUTES = [
        label: "Dashboard",
        icon: <DashboardCustomize />,
        element:<Dashboard />,
-
     },
     {
         path:"/users",
