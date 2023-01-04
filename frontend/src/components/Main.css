@@ -38,12 +38,12 @@
     width:220px;
     background: white;
     box-sizing: border-box;
-    box-shadow: 0px 0px 2px #2f2f2f;
+    box-shadow: 0px 0px 3px #2f2f2f;
     margin: 1px 3px 3px 3px;
 }
 .app-area{
     flex:1;
-    box-shadow: 0px 0px 2px #2f2f2f;
+    box-shadow: 0px 0px 3px #2f2f2f;
     background: white;
     margin: 1px 3px 3px 1px;
     box-sizing: border-box;
