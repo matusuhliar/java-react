@@ -9,16 +9,20 @@ export default function Login() {
     const [showAlert,setShowAlert] = useState(false);
     const [username,setUsername] = useState("");
     const [password,setPassword] = useState("");
+    const [disabled,setDisabled] = useState(false);
 
     const logIn = () => {
+        setDisabled(true);
         const form = new FormData();
         form.set("username",username);
         form.set("password",password);
         axiosClient().post('/authenticate.json',form,{headers:{ "Content-Type": "multipart/form-data" }}).then(response=>{
             setToken(response.data.data);
+            setDisabled(false);
             window.location.reload();
         }).catch(e=>{
-            setShowAlert(true)
+            setShowAlert(true);
+            setDisabled(false);
         })
     }
 
@@ -57,6 +61,7 @@ export default function Login() {
                             label="Username"
                             size="small"
                             value={username}
+                            disabled={disabled}
                             onChange={handleUsernameChange}
 
                         />
@@ -70,6 +75,7 @@ export default function Login() {
                             type="password"
                             size="small"
                             value={password}
+                            disabled={disabled}
                             onChange={handlePasswordChange}
                             inputProps={{
                                 autocomplete: 'new-password',
@@ -83,7 +89,7 @@ export default function Login() {
 
                     </Grid>
                     <Grid item xs={6}>
-                        <Button fullWidth={true} variant="contained" onClick={logIn}>Submit</Button>
+                        <Button fullWidth={true} variant="contained" disabled={disabled} onClick={logIn}>Submit</Button>
                     </Grid>
                 </Grid>
             </Paper>
