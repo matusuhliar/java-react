@@ -18,12 +18,13 @@ import {fetchUsersAsync, selectMovieLoadStatus, selectUsers} from "../reducers/u
 import {useEffect} from "react";
 import {Add, Delete, Edit} from "@mui/icons-material";
 import Dashboard from "./Dashboard";
-import {matchPath, Route} from "react-router-dom";
+import {matchPath, Route, useNavigate} from "react-router-dom";
 
 export default function Users() {
 
     const users = useAppSelector(selectUsers);
     const status = useAppSelector(selectMovieLoadStatus);
+    const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
 
@@ -38,7 +39,7 @@ export default function Users() {
             <Typography component="h2" variant="h5">Users</Typography>
             <Divider sx={{my:"10px"}}/>
             <Button
-                onClick={()=>{}}
+                onClick={()=>{navigate("/users/new-user")}}
                 variant="contained"
                 startIcon={<Add />}
             >

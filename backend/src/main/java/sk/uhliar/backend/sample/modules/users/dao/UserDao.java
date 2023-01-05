@@ -29,9 +29,9 @@ public class UserDao {
 
     public ApiUser loadUserByUsername(String username) {
         MapSqlParameterSource msps = new MapSqlParameterSource();
-        msps.addValue("username",username);
+        msps.addValue("email",username);
         var rowMapper = BeanPropertyRowMapper.newInstance(UserQueryResult.class);
-        return toApiUser(tpl.query("SELECT U.id,U.name,U.password,U.email,R.\"key\" as roleKey, R.name as roleName FROM [User] U INNER JOIN [UserRole] UR ON U.ID=UR.userId INNER JOIN [Role] R ON R.ID=UR.roleId WHERE username = :username ORDER BY U.ID",msps, rowMapper))
+        return toApiUser(tpl.query("SELECT U.id,U.name,U.password,U.email,R.\"key\" as roleKey, R.name as roleName FROM [User] U INNER JOIN [UserRole] UR ON U.ID=UR.userId INNER JOIN [Role] R ON R.ID=UR.roleId WHERE email = :email ORDER BY U.ID",msps, rowMapper))
                 .stream()
                 .findFirst()
                 .orElse(null);

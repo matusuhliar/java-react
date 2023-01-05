@@ -9,16 +9,17 @@ import {
 } from "react-router-dom";
 import Users from "./Users";
 import {ReactElement} from "react";
+import User from "./User";
 
 const ROUTES = [
     {
-       path:"/",
+       path:["/"],
        label: "Dashboard",
        icon: <DashboardCustomize />,
        element:<Dashboard />,
     },
     {
-        path:"/users",
+        path:["/users","/users/new-user"],
         label: "Users",
         icon: <People />,
         element:<Users />,
@@ -26,7 +27,7 @@ const ROUTES = [
 ]
 
 interface IMenuItem {
-    path:string,
+    path:string[],
     label:string,
     icon:ReactElement,
     element:ReactElement
@@ -35,11 +36,16 @@ interface IMenuItem {
 function MenuItem(props:IMenuItem) {
     const navigate = useNavigate();
 
+    let selected = false;
+    props.path.forEach(p=>{
+        selected = selected || !!matchPath(window.location.pathname,p)
+    })
+
     return (
         <Button
-            onClick={()=>navigate(props.path)}
+            onClick={()=>navigate(props.path[0])}
             fullWidth={true}
-            variant={matchPath(window.location.pathname,props.path)?"contained":"outlined"}
+            variant={selected?"contained":"outlined"}
             startIcon={props.icon}
         >
             {props.label}
@@ -64,12 +70,13 @@ export default function Main() {
             <Box className="content">
                 <Box className="menu">
                     {
-                        ROUTES.map(r=><MenuItem key={r.path} icon={r.icon} element={r.element} label={r.label} path={r.path} />)
+                        ROUTES.map(r=><MenuItem key={r.path[0]} icon={r.icon} element={r.element} label={r.label} path={r.path} />)
                     }
                 </Box>
                 <Routes>
                     <Route path="/" element={<Dashboard />}/>
                     <Route path="/users" element={<Users />}/>
+                    <Route path="/users/new-user" element={<User newUser={true} />}/>
                 </Routes>
             </Box>
         </Box>
