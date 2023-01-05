@@ -23,7 +23,7 @@ public class UserDao {
 
     public List<ApiUser> list() {
         var rowMapper = BeanPropertyRowMapper.newInstance(UserQueryResult.class);
-        List<UserQueryResult> users = tpl.query("SELECT U.id,U.username,U.name,U.password,R.\"key\" as roleKey, R.name as roleName FROM [User] U INNER JOIN [UserRole] UR ON U.ID=UR.userId INNER JOIN [Role] R ON R.ID=UR.roleId ORDER BY U.ID", rowMapper);
+        List<UserQueryResult> users = tpl.query("SELECT U.id,U.name,U.password,U.email,R.\"key\" as roleKey, R.name as roleName FROM [User] U INNER JOIN [UserRole] UR ON U.ID=UR.userId INNER JOIN [Role] R ON R.ID=UR.roleId ORDER BY U.ID", rowMapper);
         return toApiUser(users);
     }
 
@@ -31,7 +31,7 @@ public class UserDao {
         MapSqlParameterSource msps = new MapSqlParameterSource();
         msps.addValue("username",username);
         var rowMapper = BeanPropertyRowMapper.newInstance(UserQueryResult.class);
-        return toApiUser(tpl.query("SELECT U.id,U.username,U.name,U.password,R.\"key\" as roleKey, R.name as roleName FROM [User] U INNER JOIN [UserRole] UR ON U.ID=UR.userId INNER JOIN [Role] R ON R.ID=UR.roleId WHERE username = :username ORDER BY U.ID",msps, rowMapper))
+        return toApiUser(tpl.query("SELECT U.id,U.name,U.password,U.email,R.\"key\" as roleKey, R.name as roleName FROM [User] U INNER JOIN [UserRole] UR ON U.ID=UR.userId INNER JOIN [Role] R ON R.ID=UR.roleId WHERE username = :username ORDER BY U.ID",msps, rowMapper))
                 .stream()
                 .findFirst()
                 .orElse(null);
@@ -41,7 +41,7 @@ public class UserDao {
         Map<Integer,ApiUser> users = new HashMap<>();
         for(UserQueryResult dtoUser:dtoUsers){
             ApiUser user = users.get(dtoUser.getId());
-            if(user == null) user = new ApiUser(dtoUser.getId(),dtoUser.getUsername(),dtoUser.getPassword(),dtoUser.getName());
+            if(user == null) user = new ApiUser(dtoUser.getId(),dtoUser.getEmail(),dtoUser.getName(),dtoUser.getPassword());
             user.getRoles().add(new ApiUserRole(dtoUser.getRoleKey(),dtoUser.getRoleName()));
             users.put(user.getId(),user);
         }

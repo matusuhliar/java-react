@@ -7,23 +7,27 @@ import java.util.List;
 
 public class ApiUser {
     private int id;
-    private String username;
     private String name;
 
     @JsonIgnore
     private String password;
+
+    private String email;
 
     private List<ApiUserRole> roles = new ArrayList<>();
 
     public ApiUser() {
     }
 
-    public ApiUser(int id, String username, String password, String name) {
+    public ApiUser(int id, String email, String name, String password) {
         this.id = id;
-        this.username = username;
         this.name = name;
         this.password = password;
-        this.roles = roles;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public List<ApiUserRole> getRoles() {
@@ -38,17 +42,9 @@ public class ApiUser {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
     @JsonIgnore
     public String getPassword() {
         return password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getName() {

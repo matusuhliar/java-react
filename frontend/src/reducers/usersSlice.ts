@@ -4,8 +4,8 @@ import {axiosClient, setToken} from "../app/axios";
 
 export interface User {
     id:number,
-    username:string,
-    name:string
+    name:string,
+    email:string
 }
 
 export interface MoviesState {

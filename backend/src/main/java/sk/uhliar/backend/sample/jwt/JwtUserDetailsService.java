@@ -24,7 +24,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		ApiUser user = this.userService.loadUserByUsername(username);
 		if (user!=null) {
 			return new User(
-				user.getUsername(),
+				user.getEmail(),
 				user.getPassword(),
 				user.getRoles().stream().map(r->new JwtGrantedAuthority(r.getKey())).collect(Collectors.toList())
 			);

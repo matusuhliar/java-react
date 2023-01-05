@@ -50,7 +50,7 @@ export default function Users() {
                     <TableHead>
                         <TableRow className="header-row">
                             <TableCell align="left">ID</TableCell>
-                            <TableCell align="left">Username</TableCell>
+                            <TableCell align="left">Email</TableCell>
                             <TableCell align="left">Name</TableCell>
                             <TableCell sx={{width:"50px"}} size="small" align="left"></TableCell>
                         </TableRow>
@@ -58,8 +58,8 @@ export default function Users() {
                     <TableBody>
                         {users.map((row) => (
                             <TableRow key={row.name}>
-                                <TableCell align="left">{row.id}</TableCell>
-                                <TableCell align="left">{row.username}</TableCell>
+                                <TableCell sx={{width:"30px"}} align="left">{row.id}</TableCell>
+                                <TableCell sx={{width:"200px"}} align="left">{row.email}</TableCell>
                                 <TableCell align="left">{row.name}</TableCell>
                                 <TableCell sx={{width:"190px"}} align="right">
                                     <Box sx={{display:"flex",gap:"3px"}}>
