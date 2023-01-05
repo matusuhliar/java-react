@@ -68,7 +68,7 @@ public class UserDao {
     }
 
     public void edit(Integer id, String email, String name, String password) {
-        final String query = "UPDATE \"User\" SET email=:email,name=:name,password=:password";
+        final String query = "UPDATE \"User\" SET email=:email,name=:name,password=:password WHERE id=:id";
         MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource();
         sqlParameterSource.addValue("id",id);
         sqlParameterSource.addValue("email",email);
