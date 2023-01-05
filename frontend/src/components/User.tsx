@@ -5,14 +5,24 @@ import * as Yup from 'yup';
 import {FieldValues, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import {ReactElement} from "react";
+import {useNavigate} from "react-router-dom";
+import {addUser} from "../api/user";
 
 interface UserForm{
     newUser: boolean
 }
 
 export default function User(props:UserForm) {
+    const navigate = useNavigate();
     const onSubmit = (data:FieldValues) => {
-        console.log(data);
+        if(props.newUser){
+            addUser(data).then(r=>{
+                alert(r)
+                navigate("/users")
+            });
+
+
+        }
     };
 
     const validationSchema = Yup.object().shape({
@@ -76,6 +86,7 @@ export default function User(props:UserForm) {
                         error={errors.email ? true : false}
 
                     />
+
                 </Grid>
                 <Grid item xs={6}>
                     <TextField

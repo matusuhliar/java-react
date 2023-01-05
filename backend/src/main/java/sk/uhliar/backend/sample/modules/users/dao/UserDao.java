@@ -3,6 +3,9 @@ package sk.uhliar.backend.sample.modules.users.dao;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import sk.uhliar.backend.sample.modules.users.model.ApiUser;
 import sk.uhliar.backend.sample.modules.users.model.ApiUserRole;
@@ -16,9 +19,11 @@ import java.util.Map;
 public class UserDao {
     private NamedParameterJdbcTemplate tpl;
 
+    private PasswordEncoder passwordEncoder;
 
-    public UserDao(NamedParameterJdbcTemplate tpl) {
+    public UserDao(NamedParameterJdbcTemplate tpl,PasswordEncoder passwordEncoder) {
         this.tpl = tpl;
+        this.passwordEncoder=passwordEncoder;
     }
 
     public List<ApiUser> list() {
@@ -46,5 +51,29 @@ public class UserDao {
             users.put(user.getId(),user);
         }
         return users.values().stream().toList();
+    }
+
+    public void add(String email, String name, String password) {
+        final String query = "INSERT INTO \"User\" (email,name,password) VALUES (:email,:name,:password)";
+        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource();
+        sqlParameterSource.addValue("email",email);
+        sqlParameterSource.addValue("name",name);
+        sqlParameterSource.addValue("password",passwordEncoder.encode(password));
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        tpl.update(query,sqlParameterSource,keyHolder);
+        Integer generatedKey = keyHolder.getKey().intValue();
+        sqlParameterSource.addValue("userId",generatedKey);
+        final String query1 = "INSERT INTO \"UserRole\" (userId,roleId) VALUES (:userId,1)";
+        tpl.update(query1,sqlParameterSource);
+    }
+
+    public void edit(Integer id, String email, String name, String password) {
+        final String query = "UPDATE \"User\" SET email=:email,name=:name,password=:password";
+        MapSqlParameterSource sqlParameterSource = new MapSqlParameterSource();
+        sqlParameterSource.addValue("id",id);
+        sqlParameterSource.addValue("email",email);
+        sqlParameterSource.addValue("name",name);
+        sqlParameterSource.addValue("password",passwordEncoder.encode(password));
+        tpl.update(query,sqlParameterSource);
     }
 }

@@ -37,10 +37,7 @@ public class WebSecurityConfig{
 	private JwtRequestFilter jwtRequestFilter;
 
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, PasswordEncoder bCryptPasswordEncoder) throws Exception {
