@@ -49,18 +49,21 @@ public class UserService {
     }
 
     @Transactional
-    public ApiUser edit(Integer id, Integer roleId, String email, String name, String password) {
+    public ApiUser edit(Integer id, Integer roleId, String email, String name) {
         ApiUserRole role = this.userDao.getRoleById(roleId);
         ApiUser apiUser = this.userDao.getUserById(id);
         apiUser.setId(id);
         apiUser.setEmail(email);
         apiUser.setName(name);
-        apiUser.setPassword(passwordEncoder.encode(password));
         apiUser.setRoles(Stream.of(role).collect(Collectors.toList()));
-        apiUser.getRoles().add(role);
         return this.userDao.save(apiUser);
     }
-
+    @Transactional
+    public ApiUser editPassword(Integer id, String password) {
+        ApiUser apiUser = this.userDao.getUserById(id);
+        apiUser.setPassword(passwordEncoder.encode(password));
+        return this.userDao.save(apiUser);
+    }
 
     public ApiUser user(Integer id) {
         return this.userDao.getUserById(id);

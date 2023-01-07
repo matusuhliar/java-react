@@ -11,3 +11,8 @@ export const editUser = async (data:any) => {
     let res = await axiosClient().post("/users/edit.json",formDataForObj(data),{headers:{ "Content-Type": "multipart/form-data" }});
     return res.data;
 };
+
+export const editPassword = async (data:any) => {
+    let res = await axiosClient().post("/users/edit-password.json",formDataForObj(data),{headers:{ "Content-Type": "multipart/form-data" }});
+    return res.data;
+};

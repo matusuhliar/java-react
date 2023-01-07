@@ -5,7 +5,8 @@ import {axiosClient, setToken} from "../app/axios";
 export interface User {
     id:number,
     name:string,
-    email:string
+    email:string,
+    roles: Role[]
 }
 
 export interface Role {

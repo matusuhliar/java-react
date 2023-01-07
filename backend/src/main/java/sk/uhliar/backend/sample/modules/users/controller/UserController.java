@@ -44,14 +44,22 @@ public class UserController {
     }
 
     @PostMapping(value="/edit.json",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity add(
+    public ResponseEntity edit(
             @RequestParam Integer id,
             @RequestParam Integer role,
             @RequestParam String email,
-            @RequestParam String name,
+            @RequestParam String name
+    ) {
+        userService.edit(id,role,email,name);
+        return Success.create().data(true).build();
+    }
+
+    @PostMapping(value="/edit-password.json",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity add(
+            @RequestParam Integer id,
             @RequestParam String password
     ) {
-        userService.edit(id,role,email,name,password);
+        userService.editPassword(id,password);
         return Success.create().data(true).build();
     }
 }

@@ -53,6 +53,7 @@ export default function Users() {
                             <TableCell align="left">ID</TableCell>
                             <TableCell align="left">Email</TableCell>
                             <TableCell align="left">Name</TableCell>
+                            <TableCell align="left">Role</TableCell>
                             <TableCell sx={{width:"50px"}} size="small" align="left"></TableCell>
                         </TableRow>
                     </TableHead>
@@ -62,6 +63,7 @@ export default function Users() {
                                 <TableCell sx={{width:"30px"}} align="left">{row.id}</TableCell>
                                 <TableCell sx={{width:"200px"}} align="left">{row.email}</TableCell>
                                 <TableCell align="left">{row.name}</TableCell>
+                                <TableCell align="left">{row.roles.map(r=><span>{r.name}</span>)}</TableCell>
                                 <TableCell sx={{width:"190px"}} align="right">
                                     <Box sx={{display:"flex",gap:"3px"}}>
                                         <Button

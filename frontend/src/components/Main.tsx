@@ -9,7 +9,8 @@ import {
 } from "react-router-dom";
 import Users from "./Users";
 import {ReactElement} from "react";
-import User from "./User";
+import UserNew from "./UserNew";
+import UserEdit from "./UserEdit";
 
 const ROUTES = [
     {
@@ -76,8 +77,8 @@ export default function Main() {
                 <Routes>
                     <Route path="/" element={<Dashboard />}/>
                     <Route path="/users" element={<Users />}/>
-                    <Route path="/users/new-user" element={<User newUser={true} />}/>
-                    <Route path="/users/edit-user/:id" element={<User newUser={false} />}/>
+                    <Route path="/users/new-user" element={<UserNew />}/>
+                    <Route path="/users/edit-user/:id" element={<UserEdit />}/>
                 </Routes>
             </Box>
         </Box>

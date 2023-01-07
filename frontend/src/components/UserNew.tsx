@@ -10,52 +10,21 @@ import {addUser, editUser} from "../api/user";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {axiosClient} from "../app/axios";
 
-interface UserForm{
-    newUser: boolean
-}
 
-
-export default function User(props:UserForm) {
+export default function UserNew() {
     const navigate = useNavigate();
-    const dispatch = useAppDispatch();
-    const {id} = useParams();
     const [roles,setRoles] = useState([]);
 
     useEffect(() => {
-        if(props.newUser){
             axiosClient().get('/users/roles.json').then(r=>{
                 setRoles(r.data.data);
             })
-        }else{
-            Promise.all([
-                axiosClient().get('/users/roles.json'),
-                axiosClient().get('/users/user.json?id='+id)]
-            ).then((values) => {
-
-                const user = values[1].data.data;
-                setRoles(values[0].data.data);
-                console.log(user)
-                reset(
-                {role:""+user.roles[0]?.id,password:"",confirmPassword:"", name:user.name,email:user.email}
-                )
-                //setUser({role:"",password:"",confirmPassword:"", name:user.name,email:user.email,id:user.id});
-            });
-        }
-
-
     }, []);
 
     const onSubmit = (data:FieldValues) => {
-        if(props.newUser){
-            addUser(data).then(r=>{
-                navigate("/users")
-            });
-        }else{
-            data.id = id;
-            editUser(data).then(r=>{
-                navigate("/users")
-            });
-        }
+        addUser(data).then(r=>{
+            navigate("/users")
+        });
     };
 
     const validationSchema = Yup.object().shape({
@@ -76,7 +45,6 @@ export default function User(props:UserForm) {
     });
 
     const {
-        reset,
         register,
         control,
         handleSubmit,
@@ -99,7 +67,7 @@ export default function User(props:UserForm) {
 
     return (
         <Box className="app-area">
-            <Typography component="h2" variant="h5">{(props.newUser?"New User":"Edit User")}</Typography>
+            <Typography component="h2" variant="h5">New User</Typography>
             <Divider sx={{my: "10px"}}/>
             {
                 (messages.length)?
