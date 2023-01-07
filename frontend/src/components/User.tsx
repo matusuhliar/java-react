@@ -167,8 +167,8 @@ export default function User(props:UserForm) {
                         label="Password"
                         type="password"
                         size="small"
+                        InputLabelProps={{ shrink: true }}
                         inputProps={{
-                            shrink: true,
                             autoComplete: 'new-password',
                             form: {
                                 autoComplete: 'off',
@@ -187,8 +187,8 @@ export default function User(props:UserForm) {
                         label="Confirm Password"
                         type="password"
                         size="small"
+                        InputLabelProps={{ shrink: true }}
                         inputProps={{
-                            shrink: true,
                             autoComplete: 'new-password',
                             form: {
                                 autoComplete: 'off',

@@ -55,7 +55,7 @@ public class UserService {
         apiUser.setId(id);
         apiUser.setEmail(email);
         apiUser.setName(name);
-        if(password!=null && !password.isEmpty()) apiUser.setPassword(passwordEncoder.encode(password));
+        apiUser.setPassword(passwordEncoder.encode(password));
         apiUser.setRoles(Stream.of(role).collect(Collectors.toList()));
         apiUser.getRoles().add(role);
         return this.userDao.save(apiUser);

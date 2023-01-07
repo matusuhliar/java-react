@@ -19,7 +19,7 @@ const ROUTES = [
        element:<Dashboard />,
     },
     {
-        path:["/users","/users/new-user"],
+        path:["/users","/users/new-user","/users/edit-user/:id"],
         label: "Users",
         icon: <People />,
         element:<Users />,
@@ -38,7 +38,7 @@ function MenuItem(props:IMenuItem) {
 
     let selected = false;
     props.path.forEach(p=>{
-        selected = selected || !!matchPath(window.location.pathname,p)
+        selected = selected || !!matchPath(p,window.location.pathname)
     })
 
     return (
