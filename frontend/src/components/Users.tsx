@@ -65,7 +65,7 @@ export default function Users() {
                                 <TableCell sx={{width:"190px"}} align="right">
                                     <Box sx={{display:"flex",gap:"3px"}}>
                                         <Button
-                                            onClick={()=>{}}
+                                            onClick={()=>{navigate(`/users/edit-user/${row.id}`)}}
                                             variant="contained"
                                             startIcon={<Edit />}
                                             size="small"

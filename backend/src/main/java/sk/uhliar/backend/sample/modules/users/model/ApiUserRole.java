@@ -1,12 +1,29 @@
 package sk.uhliar.backend.sample.modules.users.model;
 
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity(name = "api_role")
+@Table(name="api_role")
 public class ApiUserRole {
+
+    @Id
+    @GeneratedValue
+    private Integer id;
     private String key;
     private String name;
 
-    public ApiUserRole(String key, String name) {
-        this.key = key;
-        this.name = name;
+    public ApiUserRole() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getKey() {

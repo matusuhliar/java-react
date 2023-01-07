@@ -13,33 +13,45 @@ public class UserController {
 
     private UserService userService;
 
+
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping(value="/list.json",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity list() {
-        return Success.create().data(userService.list()).build();
+    @GetMapping(value="/users.json",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity users() {
+        return Success.create().data(userService.users()).build();
+    }
+
+    @GetMapping(value="/user.json",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity users(@RequestParam Integer id) {
+        return Success.create().data(userService.user(id)).build();
+    }
+    @GetMapping(value="/roles.json",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity roles() {
+        return Success.create().data(userService.roles()).build();
     }
 
     @PostMapping(value="/add.json",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity add(
+            @RequestParam Integer role,
             @RequestParam String email,
             @RequestParam String name,
             @RequestParam String password
         ) {
-        userService.add(email,name,password);
+        userService.add(role,email,name,password);
         return Success.create().data(true).build();
     }
 
     @PostMapping(value="/edit.json",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity add(
             @RequestParam Integer id,
+            @RequestParam Integer role,
             @RequestParam String email,
             @RequestParam String name,
             @RequestParam String password
     ) {
-        userService.edit(id,email,name,password);
+        userService.edit(id,role,email,name,password);
         return Success.create().data(true).build();
     }
 }

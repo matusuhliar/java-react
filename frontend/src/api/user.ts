@@ -6,6 +6,7 @@ export const addUser = async (data:any) => {
     return res.data;
 };
 
+
 export const editUser = async (data:any) => {
     let res = await axiosClient().post("/users/edit.json",formDataForObj(data),{headers:{ "Content-Type": "multipart/form-data" }});
     return res.data;

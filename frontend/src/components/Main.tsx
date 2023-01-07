@@ -77,6 +77,7 @@ export default function Main() {
                     <Route path="/" element={<Dashboard />}/>
                     <Route path="/users" element={<Users />}/>
                     <Route path="/users/new-user" element={<User newUser={true} />}/>
+                    <Route path="/users/edit-user/:id" element={<User newUser={false} />}/>
                 </Routes>
             </Box>
         </Box>

@@ -8,29 +8,39 @@ export interface User {
     email:string
 }
 
+export interface Role {
+    id:number,
+    key:string,
+    name:string
+}
+
 export interface MoviesState {
     users: User[],
+    roles: Role[],
     status: 'idle' | 'loading' | 'failed'
 }
 
 const initialState: MoviesState = {
     users: [],
+    roles: [],
     status: 'idle'
 };
 
 export const fetchUsersAsync = createAsyncThunk(
     'movies/fetchUsers',
     async () => {
-        const response = await axiosClient().get('/users/list.json');
+        const response = await axiosClient().get('/users/users.json');
         return response.data
     }
 );
+
 
 export const usersSlice = createSlice({
     name: 'movie',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
+
         builder
             .addCase(fetchUsersAsync.pending, (state) => {
                 state.status = 'loading';
@@ -42,10 +52,10 @@ export const usersSlice = createSlice({
             .addCase(fetchUsersAsync.rejected, (state) => {
                 state.status = 'failed';
             });
+
+
     },
 });
-
-
 
 export const selectUsers = (state: RootState) => state.users.users;
 export const selectMovieLoadStatus = (state: RootState) => state.users.status;
