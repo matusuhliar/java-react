@@ -8,39 +8,11 @@ import {cloneElement, ReactElement, useState} from "react";
 
 export default function PageBuilderWidgets() {
 
-    const onMouseDown = (event:DragEvent,widget:ReactElement) => {
-        event.preventDefault();
+    const [activeWidget,setActiveWidget] = useState<string | null>(null)
 
-        let el = (event.target as HTMLElement);
-        while((el as HTMLElement).className!=='widget' && el){
-            el = (el.parentNode as HTMLElement)
-        }
-        const el1 = (el?.cloneNode(true) as HTMLElement);
-
-        el1.className+=' dragging';
-        document.body.appendChild(el1);
-        el1.style.top = event.pageY+10 + "px";
-        el1.style.left = event.pageX+10 + "px";
-        const mouseMove = (event:MouseEvent) => {
-            if(el1){
-                el1.style.top = event.pageY+10 + "px";
-                el1.style.left = event.pageX+10 + "px";
-            }
-        }
-        const mouseUp = (event:MouseEvent) => {
-            if(el1){
-                el1.remove();
-                document.body.removeEventListener("mousemove",mouseMove)
-                document.body.removeEventListener("mouseup",mouseUp)
-                document.body.removeEventListener("mouseleave", mouseUp)
-            }
-        }
-
-        document.body.addEventListener("mouseup", mouseUp)
-        document.body.addEventListener("mouseleave", mouseUp)
-        document.body.addEventListener("mousemove", mouseMove)
+    const onClick = (widget:any)=>{
+        setActiveWidget(widget.id);
     }
-
 
     const [widgets] = useState([{
         id:"image",
@@ -59,7 +31,7 @@ export default function PageBuilderWidgets() {
     return (
         <Box className="widgets">
             {
-                widgets.map(widget=>cloneElement(widget.element,{key:widget.id,onMouseDown:onMouseDown}))
+                widgets.map(widget=>cloneElement(widget.element,{className:"widget"+(activeWidget === widget.id?" active":""),key:widget.id,onClick:()=>onClick(widget)}))
             }
         </Box>
     );

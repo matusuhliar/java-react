@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Alert, Box, Breadcrumbs, Divider, Typography} from "@mui/material";
 import "./PageBuilder.css"
 import PageBuilderWidgets from "./PageBuilderWidgets";
+import PageBuilderCanvas from "./PageBuilderCanvas";
 
 export default function PageBuilder() {
     return (
@@ -21,6 +22,7 @@ export default function PageBuilder() {
                     <Box className="header">
                         Canvas
                     </Box>
+                    <PageBuilderCanvas />
                 </Box>
             </Box>
         </Box>
