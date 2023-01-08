@@ -73,4 +73,8 @@ public class UserService {
     public void delete(Integer id) {
         this.userDao.delete(id);
     }
+
+    public boolean emailExists(String email) {
+        return this.userDao.findByEmail(email)!=null;
+    }
 }

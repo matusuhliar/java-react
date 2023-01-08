@@ -79,3 +79,17 @@
     color:white;
     font-weight: bold;
 }
+
+.MuiBreadcrumbs-root{
+
+    padding: 5px;
+    border-radius: 3px;
+}
+.MuiBreadcrumbs-root *{
+    color: black !important;
+    font-weight: bold !important;
+}
+.MuiBreadcrumbs-root a{
+    text-decoration: underline;
+    color: rgba(6,91,175,0.85) !important;
+}

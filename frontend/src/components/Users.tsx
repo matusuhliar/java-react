@@ -10,7 +10,7 @@ import {
     TableRow,
     TableHead,
     Typography,
-    Paper, TableContainer, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
+    Paper, TableContainer, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Breadcrumbs
 } from "@mui/material";
 import "./Main.css"
 import {useAppDispatch, useAppSelector} from "../app/hooks";
@@ -51,6 +51,7 @@ export default function Users() {
 
     return (
         <Box className="app-area">
+
             <Dialog open={userToDelete!==null} onClose={onDialogClose}>
                 <DialogTitle id="alert-dialog-title">
                     Confirm
@@ -67,7 +68,11 @@ export default function Users() {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Typography component="h2" variant="h5">Users</Typography>
+
+            <Breadcrumbs aria-label="breadcrumb" sx={{mb:'20px'}}>
+                 <Typography color="text.primary">Users</Typography>
+            </Breadcrumbs>
+
             <Divider sx={{my:"10px"}}/>
             <Button
                 onClick={()=>{navigate("/users/new-user")}}

@@ -1,5 +1,17 @@
 import * as React from 'react';
-import {Alert, Box, Button, Divider, Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {
+    Alert,
+    Box,
+    Breadcrumbs,
+    Button,
+    Divider,
+    Grid,
+    Link,
+    MenuItem,
+    Select,
+    TextField,
+    Typography
+} from "@mui/material";
 import "./Main.css"
 import * as Yup from 'yup';
 import {Controller, FieldValues, useForm} from "react-hook-form";
@@ -14,11 +26,24 @@ import {useAppDispatch} from "../app/hooks";
 export default function UserEdit() {
     return (
         <Box className="app-area">
-            <Typography component="h2" variant="h5">Edit User</Typography>
-            <Divider sx={{my: '20px'}}></Divider>
+            <Breadcrumbs aria-label="breadcrumb" sx={{mb:'20px'}}>
+                <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/users"
+                >
+                    Users
+                </Link>
+                <Typography color="text.primary">Edit User</Typography>
+            </Breadcrumbs>
+
+            <Typography component="h2" variant="subtitle1">User Detail</Typography>
+            <Divider sx={{my: '10px'}}></Divider>
             <UserEditDetail/>
-            <Typography component="h2" variant="h5">Update Password</Typography>
-            <Divider sx={{my: '20px'}}></Divider>
+
+
+            <Typography component="h2" variant="subtitle1">Update Password</Typography>
+            <Divider sx={{my: '10px'}}></Divider>
             <UserEditPassword/>
         </Box>
     )
@@ -48,6 +73,8 @@ export function UserEditDetail() {
                 {role: "" + user.roles[0]?.id, password: "", confirmPassword: "", name: user.name, email: user.email}
             )
             dispatch(endLoading())
+        }).catch(e=>{
+            navigate("/users")
         });
     }, []);
 
@@ -108,6 +135,7 @@ export function UserEditDetail() {
                 <TextField
                     fullWidth={true}
                     required
+                    disabled={true}
                     id="outlined-required"
                     label="Email"
                     size="small"

@@ -30,7 +30,7 @@ public class UserDao {
     }
 
     public ApiUser findByEmail(String username) {
-        return (ApiUser) em.createQuery("SELECT U FROM api_user U WHERE email=:email").setParameter("email",username).getSingleResult();
+        return (ApiUser) em.createQuery("SELECT U FROM api_user U WHERE email=:email").setParameter("email",username).getResultList().stream().findFirst().orElse(null);
     }
 
     public ApiUser save(ApiUser apiUser) {

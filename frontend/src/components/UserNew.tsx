@@ -1,5 +1,17 @@
 import * as React from 'react';
-import {Alert, Box, Button, Divider, Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {
+    Alert,
+    Box,
+    Breadcrumbs,
+    Button,
+    Divider,
+    Grid,
+    Link,
+    MenuItem,
+    Select,
+    TextField,
+    Typography
+} from "@mui/material";
 import "./Main.css"
 import * as Yup from 'yup';
 import {Controller, FieldValues, useForm} from "react-hook-form";
@@ -10,6 +22,7 @@ import {addUser, editUser} from "../api/user";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {axiosClient} from "../app/axios";
 import {endLoading, startLoading} from "../reducers/loadingSlice";
+import queryString from 'query-string';
 
 
 export default function UserNew() {
@@ -38,7 +51,13 @@ export default function UserNew() {
             .required('Role is required'),
         email: Yup.string()
             .required('Email is required')
-            .email('Email is invalid'),
+            .email('Email is invalid')
+            .test('Unique Email','Email already in use',
+                function(value){return new Promise((resolve, reject) => {
+                    axiosClient().get('/users/email-exists.json?'+queryString.stringify({'email': value}))
+                        .then(res => {if(res.data.data){resolve(false)} resolve(true)})
+                })}
+            ),
         name: Yup.string()
             .required('Name is required'),
         password: Yup.string()
@@ -73,7 +92,16 @@ export default function UserNew() {
 
     return (
         <Box className="app-area">
-            <Typography component="h2" variant="h5">New User</Typography>
+            <Breadcrumbs aria-label="breadcrumb" sx={{mb:'20px'}}>
+                <Link
+                    underline="hover"
+                    color="inherit"
+                    href="/users"
+                >
+                    Users
+                </Link>
+                <Typography color="text.primary">New User</Typography>
+            </Breadcrumbs>
             <Divider sx={{my: "10px"}}/>
             {
                 (messages.length) ?

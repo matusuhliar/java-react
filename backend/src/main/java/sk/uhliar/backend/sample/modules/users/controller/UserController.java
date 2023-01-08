@@ -27,6 +27,10 @@ public class UserController {
     public ResponseEntity users(@RequestParam Integer id) {
         return Success.create().data(userService.user(id)).build();
     }
+    @GetMapping(value="/email-exists.json",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity emailExists(@RequestParam String email) {
+        return Success.create().data(userService.emailExists(email)).build();
+    }
     @GetMapping(value="/roles.json",produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity roles() {
         return Success.create().data(userService.roles()).build();
