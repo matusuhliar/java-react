@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Box, Button, Container, Link, Typography} from "@mui/material";
 import "./Main.css"
-import {DashboardCustomize, Dataset, People, VerifiedUser} from "@mui/icons-material";
+import {DashboardCustomize, Dataset, Pages, People, VerifiedUser} from "@mui/icons-material";
 import Dashboard from "./Dashboard";
 import {
     Routes,
@@ -12,9 +12,8 @@ import {ReactElement} from "react";
 import UserNew from "./UserNew";
 import UserEdit from "./UserEdit";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
-import {selectUsers} from "../reducers/usersSlice";
-import {selectLoadingState} from "../reducers/loadingSlice";
 import Loader from "./Loader";
+import PageBuilder from "./pagebuilder/PageBuilder";
 
 const ROUTES = [
     {
@@ -22,6 +21,12 @@ const ROUTES = [
        label: "Dashboard",
        icon: <DashboardCustomize />,
        element:<Dashboard />,
+    },
+    {
+        path:["/page-builder"],
+        label: "Page Builder",
+        icon: <Pages />,
+        element:<PageBuilder />,
     },
     {
         path:["/users","/users/new-user","/users/edit-user/:id"],
@@ -83,6 +88,7 @@ export default function Main() {
                 </Box>
                 <Routes>
                     <Route path="/" element={<Dashboard />}/>
+                    <Route path="/page-builder" element={<PageBuilder />}/>
                     <Route path="/users" element={<Users />}/>
                     <Route path="/users/new-user" element={<UserNew />}/>
                     <Route path="/users/edit-user/:id" element={<UserEdit />}/>
