@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Alert, Box, Breadcrumbs, Divider, Typography} from "@mui/material";
 import "./PageBuilder.css"
+import PageBuilderWidgets from "./PageBuilderWidgets";
 
 export default function PageBuilder() {
     return (
@@ -14,6 +15,7 @@ export default function PageBuilder() {
                     <Box className="header">
                         Components
                     </Box>
+                    <PageBuilderWidgets />
                 </Box>
                 <Box className="canvas">
                     <Box className="header">

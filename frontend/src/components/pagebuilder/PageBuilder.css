@@ -22,9 +22,68 @@
     width: 200px;
     margin:3px;
     background: #424242;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 .page-builder .canvas{
     flex:1;
     margin: 3px 3px 3px 0px;
     background: #424242;
+    overflow: hidden;
+    display: flex;
+}
+
+.page-builder .widgets{
+    width:100%;
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: auto;
+    gap:0px;
+    align-content: flex-start;
+    justify-content: center;
+    padding: 10px 0px;
+}
+
+.page-builder .widget,.page-builder-widget-ghost{
+    width:80px;
+    height: 80px;
+    margin: 2px;
+    border: 2px solid #989797;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #2f2f2f;
+    border-radius: 3px;
+    color: white;
+    box-sizing: border-box;
+    padding:5px;
+    font-size: 10px;
+    cursor: grab;
+}
+.page-builder .widget p,.dragging p{
+    color: white;
+    font-size: 10px;
+    text-align: center;
+}
+.dragging{
+    position:absolute;
+    width:80px;
+    height: 80px;
+    margin: 2px;
+    border: 2px solid #989797;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #2f2f2f;
+    border-radius: 3px;
+    color: white;
+    box-sizing: border-box;
+    padding:5px;
+    font-size: 10px;
+    cursor: grab;
 }
