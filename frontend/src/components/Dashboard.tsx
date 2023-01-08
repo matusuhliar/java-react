@@ -19,6 +19,7 @@ export default function Dashboard() {
                 <Typography color="text.primary">Dashboard</Typography>
             </Breadcrumbs>
             <Divider sx={{my:"10px"}}/>
+
             <Alert severity="info">
                 Welcome to <b>DMS</b>!
                 <br />
