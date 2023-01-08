@@ -62,4 +62,5 @@ public class UserController {
         userService.editPassword(id,password);
         return Success.create().data(true).build();
     }
+
 }

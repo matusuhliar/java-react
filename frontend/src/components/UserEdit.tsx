@@ -8,27 +8,36 @@ import {ReactElement, useEffect, useMemo, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {addUser, editPassword, editUser} from "../api/user";
 import {axiosClient} from "../app/axios";
+import {endLoading, startLoading} from "../reducers/loadingSlice";
+import {useAppDispatch} from "../app/hooks";
 
 export default function UserEdit() {
     return (
         <Box className="app-area">
             <Typography component="h2" variant="h5">Edit User</Typography>
-            <Divider sx={{my:'20px'}}></Divider>
+            <Divider sx={{my: '20px'}}></Divider>
             <UserEditDetail/>
             <Typography component="h2" variant="h5">Update Password</Typography>
-            <Divider sx={{my:'20px'}}></Divider>
+            <Divider sx={{my: '20px'}}></Divider>
             <UserEditPassword/>
         </Box>
     )
 }
 
+interface Role{
+    id:number,
+    key:string,
+    name:string
+}
 
 export function UserEditDetail() {
     const navigate = useNavigate();
     const {id} = useParams();
+    const dispatch = useAppDispatch();
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
+        dispatch(startLoading())
         Promise.all([
             axiosClient().get('/users/roles.json'),
             axiosClient().get('/users/user.json?id=' + id)]
@@ -38,12 +47,16 @@ export function UserEditDetail() {
             reset(
                 {role: "" + user.roles[0]?.id, password: "", confirmPassword: "", name: user.name, email: user.email}
             )
+            dispatch(endLoading())
         });
     }, []);
 
     const onSubmit = (data: FieldValues) => {
         data.id = id;
-        editUser(data);
+        dispatch(startLoading())
+        editUser(data).then(r => {
+            dispatch(endLoading())
+        });
     };
 
     const validationSchemaDetail = Yup.object().shape({
@@ -67,7 +80,7 @@ export function UserEditDetail() {
         defaultValues: {role: "", password: "", confirmPassword: "", name: "", email: ""},
     });
 
-    const rolesWidthEmptyValue = [{id: "", name: " - "}, ...roles]
+    const rolesWidthEmptyValue = [...roles]
 
     return (
         <Grid container spacing={2}>
@@ -85,7 +98,7 @@ export function UserEditDetail() {
                             InputLabelProps={{shrink: true}}
                         >
                             {
-                                rolesWidthEmptyValue.map(r => <MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>)
+                                rolesWidthEmptyValue.map((r:Role) => <MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>)
                             }
                         </TextField>
                     )}
@@ -123,7 +136,7 @@ export function UserEditDetail() {
 
             </Grid>
             <Grid item xs={12}>
-                <br />
+                <br/>
             </Grid>
         </Grid>
     );
@@ -133,9 +146,11 @@ export function UserEditDetail() {
 export function UserEditPassword() {
     const navigate = useNavigate();
     const {id} = useParams();
+    const dispatch = useAppDispatch();
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
+        dispatch(startLoading())
         Promise.all([
             axiosClient().get('/users/roles.json'),
             axiosClient().get('/users/user.json?id=' + id)]
@@ -145,12 +160,17 @@ export function UserEditPassword() {
             reset(
                 {role: "" + user.roles[0]?.id, password: "", confirmPassword: "", name: user.name, email: user.email}
             )
+            dispatch(endLoading())
         });
     }, []);
 
     const onSubmit = (data: FieldValues) => {
         data.id = id;
-        editPassword(data);
+        dispatch(startLoading())
+        editPassword(data).then(r => {
+            dispatch(endLoading())
+            reset({password: "", confirmPassword: ""})
+        });
     };
 
     const validationSchemaDetail = Yup.object().shape({
@@ -177,8 +197,6 @@ export function UserEditPassword() {
             keepErrors: true,
         }
     });
-
-    const rolesWidthEmptyValue = [{id: "", name: " - "}, ...roles]
 
     return (
         <Grid container spacing={2}>

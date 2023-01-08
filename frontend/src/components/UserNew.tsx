@@ -9,20 +9,26 @@ import {useNavigate, useParams} from "react-router-dom";
 import {addUser, editUser} from "../api/user";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import {axiosClient} from "../app/axios";
+import {endLoading, startLoading} from "../reducers/loadingSlice";
 
 
 export default function UserNew() {
     const navigate = useNavigate();
-    const [roles,setRoles] = useState([]);
+    const dispatch = useAppDispatch();
+    const [roles, setRoles] = useState([]);
 
     useEffect(() => {
-            axiosClient().get('/users/roles.json').then(r=>{
-                setRoles(r.data.data);
-            })
+        dispatch(startLoading())
+        axiosClient().get('/users/roles.json').then(r => {
+            setRoles(r.data.data);
+            dispatch(endLoading())
+        })
     }, []);
 
-    const onSubmit = (data:FieldValues) => {
-        addUser(data).then(r=>{
+    const onSubmit = (data: FieldValues) => {
+        dispatch(startLoading())
+        addUser(data).then(r => {
+            dispatch(endLoading())
             navigate("/users")
         });
     };
@@ -48,34 +54,34 @@ export default function UserNew() {
         register,
         control,
         handleSubmit,
-        formState: { errors }
+        formState: {errors}
     } = useForm({
         resolver: yupResolver(validationSchema),
-        defaultValues:{role:"",password:"",confirmPassword:"", name:"",email:""},
+        defaultValues: {role: "", password: "", confirmPassword: "", name: "", email: ""},
         resetOptions: {
             keepDirtyValues: false,
             keepErrors: true,
         }
     });
 
-    const messages:ReactElement[] = [];
+    const messages: ReactElement[] = [];
     for (const [k, v] of Object.entries(errors)) {
         messages.push(<div>{(v?.message)}</div>)
     }
 
-    const rolesWidthEmptyValue = [{id:"",name:" - "},...roles]
+    const rolesWidthEmptyValue = [{id: "", name: " - "}, ...roles]
 
     return (
         <Box className="app-area">
             <Typography component="h2" variant="h5">New User</Typography>
             <Divider sx={{my: "10px"}}/>
             {
-                (messages.length)?
-                    <Box sx={{my:'20px'}}>
+                (messages.length) ?
+                    <Box sx={{my: '20px'}}>
                         <Alert severity="error">
                             {messages}
                         </Alert>
-                    </Box>:null
+                    </Box> : null
 
             }
             <Grid container spacing={2}>
@@ -84,17 +90,17 @@ export default function UserNew() {
                     <Controller
                         name="role"
                         control={control}
-                        render={({ field: { ref, ...field } }) => (
+                        render={({field: {ref, ...field}}) => (
                             <TextField
                                 {...field}
                                 fullWidth={true}
                                 select // tell TextField to render select
                                 label="Role"
                                 size="small"
-                                InputLabelProps={{ shrink: true }}
+                                InputLabelProps={{shrink: true}}
                             >
                                 {
-                                    rolesWidthEmptyValue.map(r=><MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>)
+                                    rolesWidthEmptyValue.map(r => <MenuItem key={r.id} value={r.id}>{r.name}</MenuItem>)
                                 }
                             </TextField>
                         )}
@@ -110,7 +116,7 @@ export default function UserNew() {
                         size="small"
                         {...register('email')}
                         error={errors.email ? true : false}
-                        InputLabelProps={{ shrink: true }}
+                        InputLabelProps={{shrink: true}}
                     />
 
                 </Grid>
@@ -123,7 +129,7 @@ export default function UserNew() {
                         size="small"
                         {...register('name')}
                         error={errors.name ? true : false}
-                        InputLabelProps={{ shrink: true }}
+                        InputLabelProps={{shrink: true}}
                     />
 
                 </Grid>
@@ -135,7 +141,7 @@ export default function UserNew() {
                         label="Password"
                         type="password"
                         size="small"
-                        InputLabelProps={{ shrink: true }}
+                        InputLabelProps={{shrink: true}}
                         inputProps={{
                             autoComplete: 'new-password',
                             form: {
@@ -155,7 +161,7 @@ export default function UserNew() {
                         label="Confirm Password"
                         type="password"
                         size="small"
-                        InputLabelProps={{ shrink: true }}
+                        InputLabelProps={{shrink: true}}
                         inputProps={{
                             autoComplete: 'new-password',
                             form: {

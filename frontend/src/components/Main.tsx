@@ -11,6 +11,10 @@ import Users from "./Users";
 import {ReactElement} from "react";
 import UserNew from "./UserNew";
 import UserEdit from "./UserEdit";
+import {useAppDispatch, useAppSelector} from "../app/hooks";
+import {selectUsers} from "../reducers/usersSlice";
+import {selectLoadingState} from "../reducers/loadingSlice";
+import Loader from "./Loader";
 
 const ROUTES = [
     {
@@ -56,6 +60,8 @@ function MenuItem(props:IMenuItem) {
 
 export default function Main() {
 
+    const dispatch = useAppDispatch();
+
     const logOut = () => {
         sessionStorage.removeItem("jwtToken");
         window.location.reload()
@@ -63,6 +69,7 @@ export default function Main() {
 
     return (
         <Box className="main">
+            <Loader />
             <Box className="top-bar">
                 <Typography component="span">DMS - Data Management System</Typography>
                 <Box className="gap"></Box>

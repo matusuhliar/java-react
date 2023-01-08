@@ -16,7 +16,7 @@ public class UserDao {
 
 
     public List<ApiUser> findAll() {
-        return em.createQuery("SELECT U FROM api_user U").getResultList();
+        return em.createQuery("SELECT U FROM api_user U ORDER BY U.id ASC").getResultList();
     }
 
     public ApiUserRole getRoleById(Integer id) {

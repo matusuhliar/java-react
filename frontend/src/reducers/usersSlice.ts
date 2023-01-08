@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {RootState} from "../app/store";
 import {axiosClient, setToken} from "../app/axios";
+import {useAppDispatch} from "../app/hooks";
+import {endLoading, startLoading} from "./loadingSlice";
 
 export interface User {
     id:number,
