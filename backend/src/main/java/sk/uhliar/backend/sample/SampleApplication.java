@@ -29,9 +29,11 @@ public class SampleApplication implements CommandLineRunner {
 		ApiUserRole apiUserRole1 = new ApiUserRole();
 		apiUserRole1.setKey("ADMIN");
 		apiUserRole1.setName("Administrátor");
+
 		ApiUserRole apiUserRole2 = new ApiUserRole();
 		apiUserRole2.setKey("USER");
 		apiUserRole2.setName("Užívateľ");
+
 		em.persist(apiUserRole1);
 		em.persist(apiUserRole2);
 
@@ -42,5 +44,11 @@ public class SampleApplication implements CommandLineRunner {
 		apiUser.getRoles().add(apiUserRole1);
 		em.persist(apiUser);
 
+		ApiUser apiUser1 = new ApiUser();
+		apiUser1.setName("Tomáš Uhliar");
+		apiUser1.setEmail("tuhliar@gmail.com");
+		apiUser1.setPassword("$2a$10$slYQmyNdGzTn7ZLBXBChFOC9f6kFjAqPhccnP6DxlWXx2lPk1C3G6");
+		apiUser1.getRoles().add(apiUserRole1);
+		em.persist(apiUser1);
 	}
 }

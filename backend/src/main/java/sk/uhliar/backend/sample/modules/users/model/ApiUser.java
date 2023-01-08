@@ -18,7 +18,7 @@ public class ApiUser {
     private String email;
 
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "api_user_to_api_role",
             joinColumns = { @JoinColumn(name = "role_id")},
             inverseJoinColumns = { @JoinColumn(name = "user_id")})
