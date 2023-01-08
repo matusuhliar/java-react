@@ -10,20 +10,22 @@ import {
     TableRow,
     TableHead,
     Typography,
-    Paper, TableContainer, Divider
+    Paper, TableContainer, Divider, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions
 } from "@mui/material";
 import "./Main.css"
 import {useAppDispatch, useAppSelector} from "../app/hooks";
-import {fetchUsersAsync, selectMovieLoadStatus, selectUsers} from "../reducers/usersSlice";
-import {useEffect} from "react";
+import {fetchUsersAsync, selectMovieLoadStatus, selectUsers, User} from "../reducers/usersSlice";
+import {useEffect, useState} from "react";
 import {Add, Delete, Edit} from "@mui/icons-material";
 import Dashboard from "./Dashboard";
 import {matchPath, Route, useNavigate} from "react-router-dom";
+import {deleteUser} from "../api/user";
 
 export default function Users() {
 
     const users = useAppSelector(selectUsers);
     const status = useAppSelector(selectMovieLoadStatus);
+    const [userToDelete,setUserToDelete] = useState<User | null>(null);
     const navigate = useNavigate();
 
     const dispatch = useAppDispatch();
@@ -33,9 +35,38 @@ export default function Users() {
     }, [dispatch]);
 
 
+    const onDialogClose = () => {
+        setUserToDelete(null)
+    }
+
+    const onDelete = ()=>{
+        const user = userToDelete;
+        if(user){
+            setUserToDelete(null);
+            deleteUser(user.id).then(r=>{
+                dispatch(fetchUsersAsync())
+            })
+        }
+    }
 
     return (
         <Box className="app-area">
+            <Dialog open={userToDelete!==null} onClose={onDialogClose}>
+                <DialogTitle id="alert-dialog-title">
+                    Confirm
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Do you want to delete user {userToDelete?.name}?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={onDialogClose}>Cancel</Button>
+                    <Button onClick={onDelete} autoFocus>
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
             <Typography component="h2" variant="h5">Users</Typography>
             <Divider sx={{my:"10px"}}/>
             <Button
@@ -75,7 +106,7 @@ export default function Users() {
                                             Edit
                                         </Button>
                                         <Button
-                                            onClick={()=>{}}
+                                            onClick={()=>{setUserToDelete(row)}}
                                             variant="contained"
                                             startIcon={<Delete />}
                                             size="small"

@@ -68,4 +68,9 @@ public class UserService {
     public ApiUser user(Integer id) {
         return this.userDao.getUserById(id);
     }
+
+    @Transactional
+    public void delete(Integer id) {
+        this.userDao.delete(id);
+    }
 }

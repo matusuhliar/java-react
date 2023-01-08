@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 import sk.uhliar.backend.sample.modules.users.model.ApiUser;
 import sk.uhliar.backend.sample.modules.users.model.ApiUserRole;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -38,5 +40,12 @@ public class UserDao {
 
     public ApiUser getUserById(Integer id) {
         return em.find(ApiUser.class,id);
+    }
+
+    public void delete(Integer id) {
+        ApiUser user = getUserById(id);
+        user.setRoles(new ArrayList<>());
+        em.persist(user);
+        em.remove(user);
     }
 }

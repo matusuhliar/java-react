@@ -31,8 +31,10 @@ const initialState: MoviesState = {
 
 export const fetchUsersAsync = createAsyncThunk(
     'movies/fetchUsers',
-    async () => {
+    async (params, {dispatch}) => {
+        dispatch(startLoading());
         const response = await axiosClient().get('/users/users.json');
+        dispatch(endLoading());
         return response.data
     }
 );

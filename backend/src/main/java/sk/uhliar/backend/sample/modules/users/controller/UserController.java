@@ -62,5 +62,11 @@ public class UserController {
         userService.editPassword(id,password);
         return Success.create().data(true).build();
     }
-
+    @GetMapping(value="/delete.json",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity delete(
+            @RequestParam Integer id
+    ) {
+        userService.delete(id);
+        return Success.create().data(true).build();
+    }
 }
