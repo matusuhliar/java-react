@@ -55,7 +55,9 @@
 }
 
 .page-builder .canvas-area-toolbar{
-    padding:3px
+    padding:3px;
+    display: flex;
+    gap:3px
 }
 
 .page-builder .canvas-area{

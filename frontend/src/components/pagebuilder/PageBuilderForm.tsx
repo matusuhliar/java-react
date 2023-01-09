@@ -39,6 +39,18 @@ export default function PageBuilderForm(props:FormProps) {
         if(type===WIDGETS.TEXT){
             return (
                 <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth={true}
+                            required
+                            id="outlined-required"
+                            label="Color"
+                            size="small"
+                            value={data.color}
+                            onChange={(event)=>{data.color=(event.target as HTMLInputElement).value;setData({...data})}}
+                            InputLabelProps={{shrink: true}}
+                        />
+                    </Grid>
                      <Grid item xs={12}>
                         <ReactQuill theme="snow" value={data.text} onChange={(value)=>{data.text=value;setData({...data})}} />
                     </Grid>
@@ -79,6 +91,18 @@ export default function PageBuilderForm(props:FormProps) {
                             size="small"
                             value={data.background}
                             onChange={(event)=>{data.background=(event.target as HTMLInputElement).value;setData({...data})}}
+                            InputLabelProps={{shrink: true}}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth={true}
+                            required
+                            id="outlined-required"
+                            label="Opacity"
+                            size="small"
+                            value={data.opacity}
+                            onChange={(event)=>{data.opacity=(event.target as HTMLInputElement).value;setData({...data})}}
                             InputLabelProps={{shrink: true}}
                         />
                     </Grid>

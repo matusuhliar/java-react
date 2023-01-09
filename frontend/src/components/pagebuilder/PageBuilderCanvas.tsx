@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Box, Button} from "@mui/material";
 import "./PageBuilder.css"
-import {ReactElement, useRef, useState} from "react";
+import {MouseEventHandler, ReactElement, useRef, useState} from "react";
 import {DeleteForever, Settings} from "@mui/icons-material";
 import PageBuilderForm from "./PageBuilderForm";
 import {WIDGETS} from "./PageBuilderWidgets";
@@ -25,8 +25,9 @@ export default function PageBuilderCanvas(props: PageBuilderCanvasProps) {
     }
 
     const onMouseDown = (event: any) => {
-
-        if (props.activeWidget) {
+        if (event.target === canvas.current) {
+            setActive(null);
+        }else if (props.activeWidget) {
             const rec = (canvas.current) ? (canvas.current as HTMLElement).getBoundingClientRect() : {x: 0, y: 0};
 
             if (WIDGETS.TEXT === props.activeWidget) {
@@ -35,7 +36,8 @@ export default function PageBuilderCanvas(props: PageBuilderCanvasProps) {
                     event:event,
                     type: WIDGETS.TEXT,
                     data: {
-                        text: "Sample text ..."
+                        text: "Sample text ...",
+                        color: "black"
                     },
                     x: event.clientX - rec.x,
                     y: event.clientY - rec.y,
@@ -63,7 +65,8 @@ export default function PageBuilderCanvas(props: PageBuilderCanvasProps) {
                     event:event,
                     type: WIDGETS.BOX,
                     data: {
-                        background: "white"
+                        background: "white",
+                        opacity:1
                     },
                     x: event.clientX - rec.x,
                     y: event.clientY - rec.y,
@@ -105,7 +108,7 @@ export default function PageBuilderCanvas(props: PageBuilderCanvasProps) {
             <Box ref={canvas} className="canvas-area" onMouseDown={onMouseDown}>
                 {
                     items.map(item => <PageBuilderCanvasItem key={item.id} active={item.id === active}
-                                                             setActive={setActive}
+                                                             setActive={setActive} setOpen={setOpen}
                                                              definition={item} canvas={canvas}
                                                              newMode={!!props.activeWidget}/>)
                 }
@@ -132,6 +135,7 @@ interface CanvasItemType {
     canvas: any,
     active: boolean,
     setActive: Function,
+    setOpen: Function,
     newMode: boolean
 }
 
@@ -146,7 +150,6 @@ function PageBuilderCanvasItem(props: CanvasItemType) {
     const onMouseDown = (event: any, position: string) => {
         if (props.newMode) return;
         event.preventDefault();
-        event.stopPropagation();
         if (!props.active) {
             props.setActive(props.definition.id)
         }
@@ -203,18 +206,24 @@ function PageBuilderCanvasItem(props: CanvasItemType) {
 
     const renderData = () => {
         if (WIDGETS.TEXT === props.definition.type) {
-            return props.definition.data.text
+            return "<div style=\"width:100%;height:100%;color:"+props.definition.data.color+"\" >"+props.definition.data.text+"</div>"
         } else if (WIDGETS.IMAGE === props.definition.type) {
             return "<img style=\"width:100%;height:100%\" src=\"" + props.definition.data.url + "\" />"
         } else if (WIDGETS.BOX === props.definition.type) {
-            return "<div style=\"width:100%;height:100%;background:"+props.definition.data.background+"\" />"
+            return "<div style=\"width:100%;height:100%;background:"+props.definition.data.background+";opacity:"+props.definition.data.opacity+"\" />"
         }
         return "";
     }
 
+    const onClick = (event:any)=>{
+        if(event.detail === 2){
+            props.setOpen(true);
+        }
+    }
+
     if (!props.active) {
         return (
-            <div ref={item} style={{
+            <div onClick={onClick} ref={item} style={{
                 top: pos.y - 4 + "px",
                 left: pos.x - 4 + "px",
                 width: pos.w + 8 + "px",
@@ -235,7 +244,7 @@ function PageBuilderCanvasItem(props: CanvasItemType) {
     }
 
     return (
-        <div ref={item} style={{
+        <div onClick={onClick} ref={item} style={{
             top: pos.y - 4 + "px",
             left: pos.x - 4 + "px",
             width: pos.w + 8 + "px",
