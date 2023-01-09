@@ -35,6 +35,14 @@ export default function PageBuilderForm(props:FormProps) {
 
     useEffect(() => setData(props.data), [props]);
 
+    const toolbarOptions = [
+        ['bold', 'italic', 'underline'],        // toggled buttons
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        [{ 'color': [] }, { 'background': [] }],
+        ['clean']                                         // remove formatting button
+    ];
+
     const getFields = (type:string)=>{
         if(type===WIDGETS.TEXT){
             return (
@@ -52,7 +60,7 @@ export default function PageBuilderForm(props:FormProps) {
                         />
                     </Grid>
                      <Grid item xs={12}>
-                        <ReactQuill theme="snow" value={data.text} onChange={(value)=>{data.text=value;setData({...data})}} />
+                        <ReactQuill modules={{toolbar:toolbarOptions}} theme="snow" value={data.text} onChange={(value)=>{data.text=value;setData({...data})}} />
                     </Grid>
                     <Grid item xs={6}>
                         <Button onClick={()=>props.save(data)}>Save</Button>
@@ -71,6 +79,26 @@ export default function PageBuilderForm(props:FormProps) {
                             size="small"
                             value={data.url}
                             onChange={(event)=>{data.url=(event.target as HTMLInputElement).value;setData({...data})}}
+                            InputLabelProps={{shrink: true}}
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <Button onClick={()=>props.save(data)}>Save</Button>
+                    </Grid>
+                </Grid>
+            )
+        }else if(type===WIDGETS.VIDEO){
+            return (
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <TextField
+                            fullWidth={true}
+                            required
+                            id="outlined-required"
+                            label="Video URL"
+                            size="small"
+                            value={data.src}
+                            onChange={(event)=>{data.src=(event.target as HTMLInputElement).value;setData({...data})}}
                             InputLabelProps={{shrink: true}}
                         />
                     </Grid>

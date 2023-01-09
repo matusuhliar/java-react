@@ -25,12 +25,27 @@ export default function PageBuilderCanvas(props: PageBuilderCanvasProps) {
     }
 
     const onMouseDown = (event: any) => {
-        if (event.target === canvas.current) {
+        if (!props.activeWidget && event.target === canvas.current) {
             setActive(null);
         }else if (props.activeWidget) {
             const rec = (canvas.current) ? (canvas.current as HTMLElement).getBoundingClientRect() : {x: 0, y: 0};
 
-            if (WIDGETS.TEXT === props.activeWidget) {
+            if (WIDGETS.VIDEO === props.activeWidget) {
+                items.push({
+                    id: uuidv4(),
+                    event:event,
+                    type: WIDGETS.VIDEO,
+                    data: {
+                        src: "https://file-examples.com/storage/fea8fc38fd63bc5c39cf20b/2017/04/file_example_MP4_480_1_5MG.mp4"
+                    },
+                    x: event.clientX - rec.x,
+                    y: event.clientY - rec.y,
+                    w: 10,
+                    h: 10,
+                    bg: 'transparent',
+                })
+
+            } else if (WIDGETS.TEXT === props.activeWidget) {
                 items.push({
                     id: uuidv4(),
                     event:event,
@@ -211,6 +226,8 @@ function PageBuilderCanvasItem(props: CanvasItemType) {
             return "<img style=\"width:100%;height:100%\" src=\"" + props.definition.data.url + "\" />"
         } else if (WIDGETS.BOX === props.definition.type) {
             return "<div style=\"width:100%;height:100%;background:"+props.definition.data.background+";opacity:"+props.definition.data.opacity+"\" />"
+        } else if (WIDGETS.VIDEO === props.definition.type) {
+            return "<video width=\"100%\" height=\"100%\" controls><source src=\""+props.definition.data.src+"\" type=\"video/mp4\"></video>"
         }
         return "";
     }

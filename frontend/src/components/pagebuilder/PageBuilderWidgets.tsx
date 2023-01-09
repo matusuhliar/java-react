@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Alert, Box, Breadcrumbs, Divider, Typography} from "@mui/material";
 import "./PageBuilder.css"
-import {HorizontalSplit, Image, TextFormat, VerticalSplit} from "@mui/icons-material";
+import {HorizontalSplit, Image, TextFormat, VerticalSplit, Videocam} from "@mui/icons-material";
 import {cloneElement, ReactElement, useState} from "react";
 
 interface PageBuilderWidgetsProps{
@@ -13,6 +13,7 @@ export const WIDGETS={
     IMAGE:"image",
     TEXT:"text",
     BOX:"box",
+    VIDEO:"video",
 }
 
 export default function PageBuilderWidgets(props:PageBuilderWidgetsProps) {
@@ -30,6 +31,9 @@ export default function PageBuilderWidgets(props:PageBuilderWidgetsProps) {
     },{
         id:WIDGETS.BOX,
         element:<PageBuilderWidgetHorizontalContainer />
+    },{
+        id:WIDGETS.VIDEO,
+        element:<PageBuilderWidgetVideo />
     }])
 
     return (
@@ -68,11 +72,11 @@ function PageBuilderWidgetHorizontalContainer(props:any) {
     );
 }
 
-function PageBuilderWidgetVerticalContainer(props:any) {
+function PageBuilderWidgetVideo(props:any) {
     return (
         <div className="widget" {...props}>
-            <VerticalSplit />
-            <Typography>Vertical box</Typography>
+            <Videocam />
+            <Typography>Video</Typography>
         </div>
     );
 }
