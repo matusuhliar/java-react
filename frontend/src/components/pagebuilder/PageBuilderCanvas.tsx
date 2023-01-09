@@ -156,22 +156,24 @@ function PageBuilderCanvasItem(props: CanvasItemType) {
         const onMouseMove = (event: any) => {
             if (props.canvas.current) {
                 const rec = (props.canvas.current as HTMLElement).getBoundingClientRect();
+                const recX = rec.x - props.canvas.current.scrollLeft;
+                const recY = rec.y - props.canvas.current.scrollTop;
                 if ("top-left" === position) {
-                    pos.x = Math.min(Math.max(0, event.clientX - rec.x), origin.x + origin.w - 10);
-                    pos.y = Math.min(Math.max(0, event.clientY - rec.y), origin.y + origin.h - 10);
+                    pos.x = Math.min(Math.max(0, event.clientX - recX), origin.x + origin.w - 10);
+                    pos.y = Math.min(Math.max(0, event.clientY - recY), origin.y + origin.h - 10);
                     pos.w = origin.w + (origin.x - pos.x);
                     pos.h = origin.h + (origin.y - pos.y);
                 } else if ("bottom-right" === position) {
-                    pos.w = Math.max(10, event.clientX - rec.x - origin.x);
-                    pos.h = Math.max(10, event.clientY - rec.y - origin.y);
+                    pos.w = Math.max(10, event.clientX - recX - origin.x);
+                    pos.h = Math.max(10, event.clientY - recY - origin.y);
                 } else if ("top-right" === position) {
-                    pos.w = Math.max(10, event.clientX - rec.x - origin.x);
-                    pos.y = Math.min(Math.max(0, event.clientY - rec.y), origin.y + origin.h - 10);
+                    pos.w = Math.max(10, event.clientX - recX - origin.x);
+                    pos.y = Math.min(Math.max(0, event.clientY - recY), origin.y + origin.h - 10);
                     pos.h = origin.h + (origin.y - pos.y);
                 } else if ("bottom-left" === position) {
-                    pos.x = Math.min(Math.max(0, event.clientX - rec.x), origin.x + origin.w - 10);
+                    pos.x = Math.min(Math.max(0, event.clientX - recX), origin.x + origin.w - 10);
                     pos.w = origin.w + (origin.x - pos.x);
-                    pos.h = Math.max(10, event.clientY - rec.y - origin.y);
+                    pos.h = Math.max(10, event.clientY - recY - origin.y);
                 } else if ("move" === position) {
                     pos.x = Math.max(0, event.clientX - originEvent.x + origin.x);
                     pos.y = Math.max(0, event.clientY - originEvent.y + origin.y);
