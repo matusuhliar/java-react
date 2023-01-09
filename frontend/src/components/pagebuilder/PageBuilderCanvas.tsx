@@ -72,10 +72,22 @@ function PageBuilderCanvasItem(props: CanvasItemType) {
                 }else if("bottom-right" === position) {
                     pos.w = Math.max(10,event.clientX - rec.x - origin.x);
                     pos.h = Math.max(10,event.clientY - rec.y - origin.y);
+                }else if("top-right" === position) {
+                    pos.w = Math.max(10,event.clientX - rec.x - origin.x);
+                    pos.y = Math.min(Math.max(0,event.clientY - rec.y),origin.y+origin.h - 10);
+                    pos.h = origin.h + (origin.y - pos.y);
+                }else if("bottom-left" === position) {
+                    pos.x = Math.min(Math.max(0,event.clientX - rec.x),origin.x+origin.w - 10);
+                    pos.w = origin.w + (origin.x - pos.x);
+                    pos.h = Math.max(10,event.clientY - rec.y - origin.y);
                 }else if("move" === position) {
                     pos.x = Math.max(0,event.clientX - originEvent.x + origin.x);
                     pos.y = Math.max(0,event.clientY - originEvent.y + origin.y);
                 }
+                pos.x = Math.round(pos.x/10) * 10
+                pos.y = Math.round(pos.y/10) * 10
+                pos.w = Math.round(pos.w/10) * 10
+                pos.h = Math.round(pos.h/10) * 10
                 setPos({...pos});
             }
         }
@@ -101,8 +113,19 @@ function PageBuilderCanvasItem(props: CanvasItemType) {
                 top: "4px",
                 left: "4px",
                 width: pos.w + "px",
+                height: pos.h + "px"
+            }}>
+                <h2>Sample Box</h2>
+                <div>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged</div>
+            </div>
+            <div onMouseDown={(event) => onMouseDown(event, "move")} className="canvas-item" style={{
+                position: "absolute",
+                top: "4px",
+                left: "4px",
+                width: pos.w + "px",
                 height: pos.h + "px",
-                background: pos.bg
+                background: pos.bg,
+                opacity: 0.2
             }}></div>
             <div onMouseDown={(event) => onMouseDown(event, "top-left")} style={{
                 position: "absolute",
