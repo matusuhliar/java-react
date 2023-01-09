@@ -4,34 +4,38 @@ import "./PageBuilder.css"
 import {HorizontalSplit, Image, TextFormat, VerticalSplit} from "@mui/icons-material";
 import {cloneElement, ReactElement, useState} from "react";
 
+interface PageBuilderWidgetsProps{
+    activeWidget:string | null
+    setActiveWidget: Function
+}
 
+export const WIDGETS={
+    IMAGE:"image",
+    TEXT:"text",
+    BOX:"box",
+}
 
-export default function PageBuilderWidgets() {
-
-    const [activeWidget,setActiveWidget] = useState<string | null>(null)
+export default function PageBuilderWidgets(props:PageBuilderWidgetsProps) {
 
     const onClick = (widget:any)=>{
-        setActiveWidget(widget.id);
+        props.setActiveWidget(widget.id);
     }
 
     const [widgets] = useState([{
-        id:"image",
+        id:WIDGETS.IMAGE,
         element:<PageBuilderWidgetImage />
     },{
-        id:"text",
+        id:WIDGETS.TEXT,
         element:<PageBuilderWidgetText />
     },{
-        id:"horizontal-box",
+        id:WIDGETS.BOX,
         element:<PageBuilderWidgetHorizontalContainer />
-    },{
-        id:"vertical-box",
-        element:<PageBuilderWidgetVerticalContainer />
     }])
 
     return (
         <Box className="widgets">
             {
-                widgets.map(widget=>cloneElement(widget.element,{className:"widget"+(activeWidget === widget.id?" active":""),key:widget.id,onClick:()=>onClick(widget)}))
+                widgets.map(widget=>cloneElement(widget.element,{className:"widget"+(props.activeWidget === widget.id?" active":""),key:widget.id,onClick:()=>onClick(widget)}))
             }
         </Box>
     );

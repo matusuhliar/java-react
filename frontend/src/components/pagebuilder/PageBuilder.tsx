@@ -3,8 +3,12 @@ import {Alert, Box, Breadcrumbs, Divider, Typography} from "@mui/material";
 import "./PageBuilder.css"
 import PageBuilderWidgets from "./PageBuilderWidgets";
 import PageBuilderCanvas from "./PageBuilderCanvas";
+import {useState} from "react";
 
 export default function PageBuilder() {
+
+    const [activeWidget, setActiveWidget] = useState<string | null>(null);
+
     return (
         <Box className="app-area">
             <Breadcrumbs aria-label="breadcrumb" sx={{mb:'20px'}}>
@@ -16,13 +20,13 @@ export default function PageBuilder() {
                     <Box className="header">
                         Components
                     </Box>
-                    <PageBuilderWidgets />
+                    <PageBuilderWidgets activeWidget={activeWidget} setActiveWidget={setActiveWidget} />
                 </Box>
                 <Box className="canvas">
                     <Box className="header">
                         Canvas
                     </Box>
-                    <PageBuilderCanvas />
+                    <PageBuilderCanvas activeWidget={activeWidget} setActiveWidget={setActiveWidget} />
                 </Box>
             </Box>
         </Box>
