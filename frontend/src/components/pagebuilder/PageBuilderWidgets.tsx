@@ -63,7 +63,7 @@ function PageBuilderWidgetHorizontalContainer(props:any) {
     return (
         <div className="widget" {...props}>
             <HorizontalSplit />
-            <Typography>Horizontal Box</Typography>
+            <Typography>Box</Typography>
         </div>
     );
 }
