@@ -4,6 +4,8 @@ import {AppBar, Button, Container, Grid, Paper, TextField} from "@mui/material";
 import Login from "./components/Login";
 import {getToken} from "./app/axios";
 import Main from "./components/Main";
+import {Route, Routes} from "react-router-dom";
+import PageBuilderPreview from "./components/pagebuilder/PageBuilderPreview";
 
 
 const theme = createTheme({
@@ -17,7 +19,10 @@ export default function SignIn() {
   return (
       <ThemeProvider theme={theme}>
           {
-              getToken() === "" ? <Login /> : <Main />
+              getToken() === "" ? <Login /> : <Routes>
+                  <Route path="/preview" element={<PageBuilderPreview />}/>
+                  <Route path="/*" element={<Main />}/>
+              </Routes>
           }
 
       </ThemeProvider>
