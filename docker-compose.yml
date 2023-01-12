@@ -1,0 +1,45 @@
+version: '3.1'
+services:
+  Backend:
+    image: 'backend:1.0.0'
+    ports:
+      - "8080:8080"
+    depends_on:
+      - PostgreSQL
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  Frontend:
+    image: 'frontend:1.0.0'
+    stdin_open: true
+    depends_on:
+      - PostgreSQL
+      - Backend
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+      - /frontend/node_modules
+      - .:/frontend
+
+
+  PostgreSQL:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
