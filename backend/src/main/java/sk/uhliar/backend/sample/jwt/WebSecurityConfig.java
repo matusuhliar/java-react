@@ -51,7 +51,7 @@ public class WebSecurityConfig{
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         // We don't need CSRF for this example
-		http.csrf().disable()
+		http.cors().disable()
 				// dont authenticate this particular request
 				.authorizeHttpRequests().requestMatchers("/authenticate.json").permitAll().
 				// all other requests need to be authenticated
