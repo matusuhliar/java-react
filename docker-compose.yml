@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 services:
   backend:
     image: 'backend'
@@ -13,16 +13,24 @@ services:
     networks:
       - my-network
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
+  #prod:
+  #  container_name: prod
+  #  build:
+  #    context: ./frontend
+  #    dockerfile: Dockerfile.prod
+  #  ports:
+  #    - '1337:80'
 
   frontend:
     image: 'frontend'
     container_name: frontend
     stdin_open: true
     depends_on:
-      - mysql
-      - backend
+      backend:
+        condition: service_completed_successfully
     environment:
       - CHOKIDAR_USEPOLLING=true
     build: ./frontend
@@ -37,12 +45,9 @@ services:
   # MySQL container
   mysql:
     container_name: mysql
-    # Use mysql:8.0.19 image
     image: mysql:8.0.19
-    # Connect to "my-network" network, as defined below
     networks:
       - my-network
-    # Pass a list of environment variables to the container
     environment:
       MYSQL_ROOT_PASSWORD: test
       MYSQL_DATABASE: sampleDB
@@ -50,25 +55,24 @@ services:
       MYSQL_PASSWORD: test
     ports:
       - '3306:3306'
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
 
   # phpMyAdmin container
   phpmyadmin:
     container_name: phpmyadmin
-    # Use phpmyadmin/phpmyadmin:5.0.2 image
     image: phpmyadmin/phpmyadmin:5.0.2
-    # Connect to "my-network" network, as defined below
     networks:
       - my-network
-    # Map port 8080 on the host to port 80 inside the container
-    # Syntax is: "HOST_PORT:CONTAINER_PORT"
     ports:
       - "9081:80"
-    # Pass a list of environment variables to the container
     environment:
       PMA_HOST: mysql
-    # Wait for "mysql" container to start first
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
 
 # Define networks
 networks:
