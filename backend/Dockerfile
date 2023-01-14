@@ -1,4 +1,9 @@
+FROM gradle:jdk17 as gradleimage
+COPY . /home/gradle/source
+WORKDIR /home/gradle/source/
+RUN gradle clean build
+
 FROM openjdk:17
-COPY /build/libs/backend-1.0.0.jar backend-1.0.0.jar
-ENTRYPOINT ["java","-jar","backend-1.0.0.jar"]
-EXPOSE 8080
+COPY --from=gradleimage /home/gradle/source/build/libs/sample-app-1.0.0.jar /app/
+WORKDIR /app
+ENTRYPOINT ["java", "-jar", "sample-app-1.0.0.jar"]

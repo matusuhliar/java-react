@@ -1,45 +1,75 @@
-version: '3.1'
+version: "3.7"
 services:
-  Backend:
-    image: 'backend:1.0.0'
+  backend:
+    image: 'backend'
+    container_name: backend
+    build: ./backend
+    environment:
+      JDBC_URL: jdbc:mysql://mysql:3306/sampleDB?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
+      JDBC_PASSWORD: test
+      JDBC_USER: test
     ports:
       - "8080:8080"
+    networks:
+      - my-network
     depends_on:
-      - PostgreSQL
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/postgres
-      - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=postgres
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - mysql
 
-  Frontend:
-    image: 'frontend:1.0.0'
+
+  frontend:
+    image: 'frontend'
+    container_name: frontend
     stdin_open: true
     depends_on:
-      - PostgreSQL
-      - Backend
+      - mysql
+      - backend
     environment:
       - CHOKIDAR_USEPOLLING=true
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
+    build: ./frontend
     ports:
       - '3000:3000'
+    networks:
+      - my-network
     volumes:
       - /frontend/node_modules
       - .:/frontend
 
-
-  PostgreSQL:
-    image: postgres
-    ports:
-      - "5432:5432"
+  # MySQL container
+  mysql:
+    container_name: mysql
+    # Use mysql:8.0.19 image
+    image: mysql:8.0.19
+    # Connect to "my-network" network, as defined below
+    networks:
+      - my-network
+    # Pass a list of environment variables to the container
     environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: sampleDB
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+    ports:
+      - '3306:3306'
+
+  # phpMyAdmin container
+  phpmyadmin:
+    container_name: phpmyadmin
+    # Use phpmyadmin/phpmyadmin:5.0.2 image
+    image: phpmyadmin/phpmyadmin:5.0.2
+    # Connect to "my-network" network, as defined below
+    networks:
+      - my-network
+    # Map port 8080 on the host to port 80 inside the container
+    # Syntax is: "HOST_PORT:CONTAINER_PORT"
+    ports:
+      - "9081:80"
+    # Pass a list of environment variables to the container
+    environment:
+      PMA_HOST: mysql
+    # Wait for "mysql" container to start first
+    depends_on:
+      - mysql
+
+# Define networks
+networks:
+  my-network:
