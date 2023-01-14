@@ -53,6 +53,7 @@ services:
       MYSQL_DATABASE: sampleDB
       MYSQL_USER: test
       MYSQL_PASSWORD: test
+      MYSQL_ROOT_HOST: 172.*.*.*
     ports:
       - '3306:3306'
     healthcheck:
