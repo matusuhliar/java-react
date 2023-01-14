@@ -30,7 +30,7 @@ services:
     stdin_open: true
     depends_on:
       backend:
-        condition: service_completed_successfully
+        condition: service_started
     environment:
       - CHOKIDAR_USEPOLLING=true
     build: ./frontend
