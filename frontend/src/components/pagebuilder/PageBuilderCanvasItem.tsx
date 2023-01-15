@@ -164,7 +164,9 @@ export default function PageBuilderCanvasItem(props: CanvasItemType) {
                 left: "4px",
                 width: "8px",
                 height: "8px",
-                background: "silver"
+                background: "silver",
+                border: "1px solid gray",
+                boxSizing:"border-box"
             }}></div>
             <div onMouseDown={(event) => onMouseDown(event, "bottom-left")} style={{
                 position: "absolute",
@@ -172,15 +174,9 @@ export default function PageBuilderCanvasItem(props: CanvasItemType) {
                 left: "4px",
                 width: "8px",
                 height: "8px",
-                background: "silver"
-            }}></div>
-            <div onMouseDown={(event) => onMouseDown(event, "bottom-right")} style={{
-                position: "absolute",
-                top: pos.h - 4 + "px",
-                left: pos.w - 4 + "px",
-                width: "8px",
-                height: "8px",
-                background: "silver"
+                background: "silver",
+                border: "1px solid gray",
+                boxSizing:"border-box"
             }}></div>
             <div onMouseDown={(event) => onMouseDown(event, "top-right")} style={{
                 position: "absolute",
@@ -188,7 +184,19 @@ export default function PageBuilderCanvasItem(props: CanvasItemType) {
                 left: pos.w - 4 + "px",
                 width: "8px",
                 height: "8px",
-                background: "silver"
+                background: "silver",
+                border: "1px solid gray",
+                boxSizing:"border-box"
+            }}></div>
+            <div onMouseDown={(event) => onMouseDown(event, "bottom-right")} style={{
+                position: "absolute",
+                top: pos.h - 4 + "px",
+                left: pos.w - 4 + "px",
+                width: "8px",
+                height: "8px",
+                background: "silver",
+                border: "1px solid gray",
+                boxSizing:"border-box"
             }}></div>
         </div>
     );
