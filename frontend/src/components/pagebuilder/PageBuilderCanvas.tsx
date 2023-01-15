@@ -156,7 +156,6 @@ export default function PageBuilderCanvas(props: PageBuilderCanvasProps) {
                                                              definition={item} canvas={canvas} updateItems={updateItems}
                                                              newMode={!!props.activeWidget}/>)
                 }
-
             </Box>
         </Box>
     );
