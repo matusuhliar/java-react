@@ -17,15 +17,15 @@ const theme = createTheme({
 
 export default function SignIn() {
   return (
-      <ThemeProvider theme={theme}>
+
+          <ThemeProvider theme={theme}>
           {
               !isTokenSet() ? <Login /> : <Routes>
                   <Route path="/preview" element={<PageBuilderPreview />}/>
                   <Route path="/*" element={<Main />}/>
               </Routes>
           }
-
-      </ThemeProvider>
+          </ThemeProvider>
 
   );
 }

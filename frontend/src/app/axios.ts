@@ -1,4 +1,5 @@
 import axios, {AxiosHeaders, AxiosInstance} from "axios";
+import {formDataForObj} from "../api/utils";
 
 const TOKEN = 'jwtToken'
 const REFRESH_TOKEN = 'jwtRefreshToken'
@@ -7,12 +8,20 @@ export const isTokenSet = () => {
     return !!localStorage.getItem(TOKEN);
 }
 export const setToken = (token: string,refreshToken: string) => {
-    const jwtToken = token;
-    localStorage.setItem(TOKEN, jwtToken)
-    localStorage.setItem(REFRESH_TOKEN, jwtToken)
+    localStorage.setItem(TOKEN, token)
+    localStorage.setItem(REFRESH_TOKEN, refreshToken)
 }
 
 let service:AxiosInstance | null = null;
+
+const baseConfig = {
+    baseURL: 'http://localhost:8080',
+    timeout: 60000,
+    headers: {
+        'Access-Control-Allow-Origin':'*',
+        'Content-Type': 'application/json'
+    }
+};
 
 export const axiosClient = () => {
     
@@ -20,14 +29,7 @@ export const axiosClient = () => {
         return service;
     }
     
-    service = axios.create({
-        baseURL: 'http://localhost:8080',
-        timeout: 60000,
-        headers: {
-            'Access-Control-Allow-Origin':'*',
-            'Content-Type': 'application/json'
-        }
-    })
+    service = axios.create(baseConfig)
     service.interceptors.request.use(
         config => {
             const accessToken = localStorage.getItem(TOKEN) || "";
@@ -56,8 +58,15 @@ export const axiosClient = () => {
                 ) {
                     originalRequest._retry = true;
                     return axios
-                        .post(`/authenticate-refresh.json`, {
+                        .post(`/authenticate-refresh.json`, formDataForObj({
                             refreshToken: refreshToken
+                        }),{
+                            baseURL: 'http://localhost:8080',
+                            timeout: 60000,
+                            headers: {
+                                'Access-Control-Allow-Origin':'*',
+                                "Content-Type": "multipart/form-data"
+                            }
                         })
                         .then(res => {
                             if (res.status === 200) {

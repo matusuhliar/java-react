@@ -11,7 +11,7 @@ CREATE TABLE `api_user` (
     `name` varchar(255) DEFAULT NULL,
     `password` varchar(255) DEFAULT NULL,
     `token` varchar(255) DEFAULT NULL,
-    `refreshToken` varchar(255) DEFAULT NULL,
+    `refresh_token` varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

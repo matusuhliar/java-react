@@ -32,7 +32,7 @@ export default function Users() {
 
     useEffect(() => {
         dispatch(fetchUsersAsync())
-    }, [dispatch]);
+    }, []);
 
 
     const onDialogClose = () => {
