@@ -16,31 +16,31 @@ services:
       mysql:
         condition: service_healthy
 
-  #prod:
-  #  container_name: prod
-  #  build:
-  #    context: ./frontend
-  #    dockerfile: Dockerfile.prod
-  #  ports:
-  #    - '1337:80'
-
-  frontend:
-    image: 'frontend'
-    container_name: frontend
-    stdin_open: true
-    depends_on:
-      backend:
-        condition: service_started
-    environment:
-      - CHOKIDAR_USEPOLLING=true
-    build: ./frontend
+  prod:
+    container_name: prod
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
     ports:
-      - '3000:3000'
-    networks:
-      - my-network
-    volumes:
-      - /frontend/node_modules
-      - .:/frontend
+      - '80:80'
+
+  #frontend:
+  #  image: 'frontend'
+  #  container_name: frontend
+  #  stdin_open: true
+  #  depends_on:
+  #    backend:
+  #      condition: service_started
+  #  environment:
+  #    - CHOKIDAR_USEPOLLING=true
+  #  build: ./frontend
+  #  ports:
+  #    - '3000:3000'
+  #  networks:
+  #    - my-network
+  #  volumes:
+  #    - /frontend/node_modules
+  #    - .:/frontend
 
   # MySQL container
   mysql:

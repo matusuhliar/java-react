@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name="api_user")
 public class ApiUser {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     private String name;
     @JsonIgnore
@@ -20,8 +20,8 @@ public class ApiUser {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "api_user_to_api_role",
-            joinColumns = { @JoinColumn(name = "role_id")},
-            inverseJoinColumns = { @JoinColumn(name = "user_id")})
+            joinColumns = { @JoinColumn(name = "user_id")},
+            inverseJoinColumns = { @JoinColumn(name = "role_id")})
     private List<ApiUserRole> roles = new ArrayList<>();
 
     public ApiUser() {

@@ -10,7 +10,7 @@ import java.util.List;
 public class ApiUserRole {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
     private String key;
     private String name;

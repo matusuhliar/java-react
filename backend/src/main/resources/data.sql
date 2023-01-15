@@ -10,5 +10,5 @@ INSERT INTO `api_user` (`id`, `email`, `name`, `password`) VALUES
 
 INSERT INTO `api_user_to_api_role` (`role_id`, `user_id`) VALUES
 (1, 1),
-(2, 1);
+(1, 2);
 
