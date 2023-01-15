@@ -3,6 +3,7 @@ package sk.uhliar.backend.sample.modules.users.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import sk.uhliar.backend.sample.jwt.Tokens;
 import sk.uhliar.backend.sample.modules.users.model.ApiUser;
 import sk.uhliar.backend.sample.modules.users.model.ApiUserRole;
 import sk.uhliar.backend.sample.modules.users.repository.UserDao;
@@ -76,5 +77,11 @@ public class UserService {
 
     public boolean emailExists(String email) {
         return this.userDao.findByEmail(email)!=null;
+    }
+
+
+    @Transactional
+    public void storeTokens(String username, Tokens tokens) {
+        this.userDao.storeTokens(username,tokens);
     }
 }

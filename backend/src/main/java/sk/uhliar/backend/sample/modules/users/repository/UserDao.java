@@ -3,6 +3,7 @@ package sk.uhliar.backend.sample.modules.users.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+import sk.uhliar.backend.sample.jwt.Tokens;
 import sk.uhliar.backend.sample.modules.users.model.ApiUser;
 import sk.uhliar.backend.sample.modules.users.model.ApiUserRole;
 
@@ -47,5 +48,12 @@ public class UserDao {
         user.setRoles(new ArrayList<>());
         em.persist(user);
         em.remove(user);
+    }
+
+    public void storeTokens(String username, Tokens tokens) {
+        ApiUser user = findByEmail(username);
+        user.setToken(tokens.getToken());
+        user.setRefreshToken(tokens.getRefreshToken());
+        em.persist(user);
     }
 }

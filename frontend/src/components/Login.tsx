@@ -17,7 +17,7 @@ export default function Login() {
         form.set("username",username);
         form.set("password",password);
         axiosClient().post('/authenticate.json',form,{headers:{ "Content-Type": "multipart/form-data" }}).then(response=>{
-            setToken(response.data.data);
+            setToken(response.data.data.token,response.data.data.refreshToken);
             setDisabled(false);
             window.location.reload();
         }).catch(e=>{
@@ -40,7 +40,7 @@ export default function Login() {
         <Container maxWidth="xs">
 
             <Paper sx={{ flexGrow: 1, mt:'50px',padding:'10px', background: "rgba(6,91,175,0.85)", color:"white"}}>
-                DMS
+                Mole Designer
             </Paper>
             <Paper sx={{ flexGrow: 1, mt:'2px',padding:'10px'}}>
                 <Grid container spacing={2}>

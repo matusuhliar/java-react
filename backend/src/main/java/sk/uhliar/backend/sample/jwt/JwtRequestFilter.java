@@ -17,6 +17,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import sk.uhliar.backend.sample.modules.users.model.ApiUser;
+import sk.uhliar.backend.sample.modules.users.service.UserService;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -26,6 +28,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
+
+	@Autowired
+	private UserService userService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -54,10 +59,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
 			UserDetails userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-
+			ApiUser apiUser = userService.loadUserByUsername(username);
 			// if token is valid configure Spring Security to manually set
 			// authentication
-			if (jwtTokenUtil.validateToken(jwtToken, userDetails)) {
+			if (apiUser.getToken().equals(jwtToken) && jwtTokenUtil.validateToken(jwtToken, userDetails.getUsername())) {
 
 				UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 						userDetails, null, userDetails.getAuthorities());

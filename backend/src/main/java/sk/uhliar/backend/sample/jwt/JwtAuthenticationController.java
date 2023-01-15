@@ -27,10 +27,26 @@ public class JwtAuthenticationController {
 	@RequestMapping(value = "/authenticate.json",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestParam String username,@RequestParam String password) throws Exception {
 		authenticate(username, password);
-		final UserDetails userDetails = userDetailsService
-				.loadUserByUsername(username);
-		final String token = jwtTokenUtil.generateToken(userDetails);
-		return Success.create().data(token).build();
+		Tokens tokens = new Tokens(
+			jwtTokenUtil.generateTokenAuthToken(username),
+			jwtTokenUtil.generateRefreshToken(username)
+		);
+		userDetailsService.storeTokens(username,tokens);
+		return Success.create().data(tokens).build();
+	}
+
+	@RequestMapping(value = "/authenticate-refresh.json",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
+	public ResponseEntity<?> createAuthenticationToken(@RequestParam String refreshToken) throws Exception {
+		if(!jwtTokenUtil.isTokenExpired(refreshToken)){
+			final String username = jwtTokenUtil.getUsernameFromToken(refreshToken);
+			Tokens tokens = new Tokens(
+					jwtTokenUtil.generateTokenAuthToken(username),
+					jwtTokenUtil.generateRefreshToken(username)
+			);
+			userDetailsService.storeTokens(username,tokens);
+			return Success.create().data(tokens).build();
+		}
+		throw new Exception("TOKEN_EXPIRED");
 	}
 
 	private void authenticate(String username, String password) throws Exception {

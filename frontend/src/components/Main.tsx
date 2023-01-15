@@ -14,6 +14,7 @@ import UserEdit from "./UserEdit";
 import {useAppDispatch, useAppSelector} from "../app/hooks";
 import Loader from "./Loader";
 import PageBuilder from "./pagebuilder/PageBuilder";
+import {setToken} from "../app/axios";
 
 const ROUTES = [
     {
@@ -68,7 +69,7 @@ export default function Main() {
     const dispatch = useAppDispatch();
 
     const logOut = () => {
-        sessionStorage.removeItem("jwtToken");
+        setToken("","");
         window.location.reload()
     }
 
@@ -76,7 +77,7 @@ export default function Main() {
         <Box className="main">
             <Loader />
             <Box className="top-bar">
-                <Typography component="span">DMS - Data Management System</Typography>
+                <Typography component="span">Mole Designer - Simple Web Site Designer</Typography>
                 <Box className="gap"></Box>
                 <Button className="logout" onClick={logOut}>Log Out</Button>
             </Box>

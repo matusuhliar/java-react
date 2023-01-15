@@ -17,6 +17,12 @@ public class ApiUser {
     private String password;
     private String email;
 
+    @JsonIgnore
+    private String token;
+
+    @JsonIgnore
+    private String refreshToken;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "api_user_to_api_role",
@@ -65,5 +71,21 @@ public class ApiUser {
 
     public void setRoles(List<ApiUserRole> roles) {
         this.roles = roles;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }

@@ -23,8 +23,8 @@ public class JwtTokenUtil implements Serializable {
 
 	private static final long serialVersionUID = -2550185165626007488L;
 
-	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-
+	public static final long JWT_TOKEN_VALIDITY = 10;
+	public static final long JWT_REFRESH_TOKEN_VALIDITY = 60 * 60 * 24 * 30;
 	@Value("${jwt.secret}")
 	private String secret;
 
@@ -48,15 +48,18 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	//check if the token has expired
-	private Boolean isTokenExpired(String token) {
+	public Boolean isTokenExpired(String token) {
 		final Date expiration = getExpirationDateFromToken(token);
 		return expiration.before(new Date());
 	}
 
 	//generate token for user
-	public String generateToken(UserDetails userDetails) {
-		Map<String, Object> claims = new HashMap<>();
-		return doGenerateToken(claims, userDetails.getUsername());
+	public String generateTokenAuthToken(String username) {
+		return doGenerateToken(new HashMap<>(), username,JWT_TOKEN_VALIDITY);
+	}
+
+	public String generateRefreshToken(String username) {
+		return doGenerateToken(new HashMap<>(), username,JWT_REFRESH_TOKEN_VALIDITY);
 	}
 
 	//while creating the token -
@@ -64,17 +67,17 @@ public class JwtTokenUtil implements Serializable {
 	//2. Sign the JWT using the HS512 algorithm and secret key.
 	//3. According to JWS Compact Serialization(https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
 	//   compaction of the JWT to a URL-safe string 
-	private String doGenerateToken(Map<String, Object> claims, String subject) {
+	private String doGenerateToken(Map<String, Object> claims, String subject, long validity) {
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         Key key = Keys.hmacShaKeyFor(keyBytes);
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+				.setExpiration(new Date(System.currentTimeMillis() + validity * 1000))
 				.signWith(key).compact();
 	}
 
 	//validate token
-	public Boolean validateToken(String token, UserDetails userDetails) {
+	public Boolean validateToken(String token, String userName) {
 		final String username = getUsernameFromToken(token);
-		return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+		return (username.equals(userName) && !isTokenExpired(token));
 	}
 }

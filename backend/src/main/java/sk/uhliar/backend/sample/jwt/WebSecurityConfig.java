@@ -53,7 +53,7 @@ public class WebSecurityConfig{
         // We don't need CSRF for this example
 		http.cors().and().csrf().disable()
 				// dont authenticate this particular request
-				.authorizeHttpRequests().requestMatchers("/authenticate.json").permitAll().
+				.authorizeHttpRequests().requestMatchers("/authenticate.json","/authenticate-refresh.json").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				//anyRequest().permitAll().and().
