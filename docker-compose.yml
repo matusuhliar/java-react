@@ -23,7 +23,8 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - '80:80'
-
+    networks:
+      - my-network
   #frontend:
   #  image: 'frontend'
   #  container_name: frontend
