@@ -11,14 +11,19 @@ import PageBuilderCanvasItem, {CanvasItemDefinition, CanvasItemType} from "./Pag
 interface PageBuilderCanvasProps {
     activeWidget: string | null,
     setActiveWidget: Function,
-    items?: CanvasItemDefinition[]
+    items: CanvasItemDefinition[],
+    setItems:Function,
+    active: string | null,
+    setActive: Function
 }
 
 export default function PageBuilderCanvas(props: PageBuilderCanvasProps) {
 
-    const [active, setActive] = useState<string | null>(null);
+    const {active, setActive} = props;
     const [open, setOpen] = useState<boolean>(false);
-    const [items, setItems] = useState<any[]>(props.items || []);
+    const {items,setItems} = props;
+
+    //const [items, setItems] = useState<any[]>(props.items || []);
     const canvas = useRef(null);
 
     const deleteItem=(e:KeyboardEvent)=>{
@@ -40,19 +45,7 @@ export default function PageBuilderCanvas(props: PageBuilderCanvasProps) {
         setActive(itemId)
     }
 
-    const setBringToTop = () =>{
-        setItems([...items.filter(i=>i.id !== active),items.find(i=>i.id === active)]);
-    }
 
-    const setBringToBack = () =>{
-          setItems([items.find(i=>i.id === active),...items.filter(i=>i.id !== active)]);
-    }
-
-    const preview=()=>{
-        items.forEach(i=>i.event = null);
-        window.localStorage.setItem("preview",JSON.stringify(items))
-        window.open('/preview', "_blank", "toolbar=0, scrollbars=1, resizable=0, width=1000, height=800" );
-    }
 
     useEffect(()=>{
         window.addEventListener('keydown',deleteItem,false)
@@ -155,18 +148,7 @@ export default function PageBuilderCanvas(props: PageBuilderCanvasProps) {
                 /> : null
             }
 
-            <Box className="canvas-area-toolbar">
-                <Button variant={"contained"} onClick={() => setOpen(true)} disabled={active === null}
-                        startIcon={<Settings/>}>Component Settings</Button>
-                <Button variant={"contained"} onClick={() => setItems(items.filter(item=>item.id!==active))} disabled={active === null}
-                        startIcon={<DeleteForever/>}>Remove Component</Button>
-                <Button variant={"contained"} onClick={setBringToTop} disabled={active === null}
-                        startIcon={<MoveUp/>}>Bring to Top</Button>
-                <Button variant={"contained"} onClick={setBringToBack} disabled={active === null}
-                        startIcon={<MoveDown/>}>Bring to Back</Button>
-                <Button variant={"contained"} onClick={()=>preview()}
-                        startIcon={<Preview/>}>Preview</Button>
-            </Box>
+
             <Box ref={canvas} className="canvas-area" onMouseDown={onMouseDown}>
                 {
                     items.map(item => <PageBuilderCanvasItem key={item.id} active={item.id === active}

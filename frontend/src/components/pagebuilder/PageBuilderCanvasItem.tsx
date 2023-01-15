@@ -88,6 +88,7 @@ export default function PageBuilderCanvasItem(props: CanvasItemType) {
     if (props.definition.event && firstRender) {
         setFirstRender(false);
         onMouseDown(props.definition.event, "bottom-right")
+        props.definition.event = null;
     }
 
 

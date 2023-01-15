@@ -26,6 +26,54 @@
     display: flex;
     flex-direction: column;
 }
+.page-builder .properties{
+    width: 200px;
+    margin:3px;
+    background: #424242;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+.page-builder .properties-wrapper{
+    width:100%;
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    overflow: auto;
+    gap:0px;
+    align-content: flex-start;
+    padding: 10px 10px;
+    box-sizing: border-box;
+
+}
+
+.page-builder .properties-wrapper > *{
+    width:100%;
+    margin: 1px 0px;
+
+}
+.page-builder .properties-wrapper .page{
+    width:100%;
+    display: flex;
+    flex-direction: row;
+    border: 1px solid #727272;
+    justify-content: center;
+    padding: 3px;
+    align-content: center;
+}
+.page-builder .properties-wrapper .page .label{
+    flex:1;
+    font-size: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+}
+.page-builder .properties-wrapper .page.selected .label {
+    text-decoration: underline;
+}
+
 .page-builder .canvas{
     flex:1;
     margin: 3px 3px 3px 0px;
