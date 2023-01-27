@@ -3,7 +3,7 @@ package sk.uhliar.backend.sample.utils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-public class Success {
+public class Success<T> {
     private boolean success;
     private String timestamp;
     private Object data;
@@ -13,7 +13,7 @@ public class Success {
         this.timestamp = Utils.timestamp();
     }
 
-    public Success data(Object data) {
+    public Success<T> data(T data) {
         this.data = data;
         return this;
     }

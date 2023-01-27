@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -53,7 +54,7 @@ public class WebSecurityConfig{
         // We don't need CSRF for this example
 		http.cors().and().csrf().disable()
 				// dont authenticate this particular request
-				.authorizeHttpRequests().requestMatchers("/authenticate.json","/authenticate-refresh.json").permitAll().
+				.authorizeHttpRequests().requestMatchers("/openapi/**","/authenticate.json","/authenticate-refresh.json").permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated().and().
 				//anyRequest().permitAll().and().
