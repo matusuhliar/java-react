@@ -33,7 +33,7 @@ export default function UserNew() {
     useEffect(() => {
         dispatch(startLoading())
         axiosClient().get('/users/roles.json').then(r => {
-            setRoles(r.data.data);
+            setRoles(r.data);
             dispatch(endLoading())
         })
     }, []);
@@ -55,7 +55,7 @@ export default function UserNew() {
             .test('Unique Email','Email already in use',
                 function(value){return new Promise((resolve, reject) => {
                     axiosClient().get('/users/email-exists.json?'+queryString.stringify({'email': value}))
-                        .then(res => {if(res.data.data){resolve(false)} resolve(true)})
+                        .then(res => {if(res.data){resolve(false)} resolve(true)})
                 })}
             ),
         name: Yup.string()

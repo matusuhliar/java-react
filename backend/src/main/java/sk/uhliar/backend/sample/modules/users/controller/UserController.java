@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import sk.uhliar.backend.sample.modules.users.model.ApiUser;
 import sk.uhliar.backend.sample.modules.users.service.UserService;
-import sk.uhliar.backend.sample.utils.Success;
 
 @RestController
 @RequestMapping("/users")
@@ -36,7 +34,7 @@ public class UserController {
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/users.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity users() {
-        return Success.create().data(userService.users()).build();
+        return ResponseEntity.ok(userService.users());
     }
 
     @Operation(summary = "Get user details by id")
@@ -47,17 +45,17 @@ public class UserController {
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(value = "/user.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity users(@RequestParam @Parameter(description="id of the user") Integer id) {
-        return Success.create().data(userService.user(id)).build();
+        return ResponseEntity.ok(userService.user(id));
     }
 
     @GetMapping(value = "/email-exists.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity emailExists(@RequestParam String email) {
-        return Success.create().data(userService.emailExists(email)).build();
+        return ResponseEntity.ok(userService.emailExists(email));
     }
 
     @GetMapping(value = "/roles.json", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity roles() {
-        return Success.create().data(userService.roles()).build();
+        return ResponseEntity.ok(userService.roles());
     }
 
     @PostMapping(value = "/add.json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -68,7 +66,7 @@ public class UserController {
             @RequestParam String password
     ) {
         userService.add(role, email, name, password);
-        return Success.create().data(true).build();
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping(value = "/edit.json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -79,7 +77,7 @@ public class UserController {
             @RequestParam String name
     ) {
         userService.edit(id, role, email, name);
-        return Success.create().data(true).build();
+        return ResponseEntity.ok(true);
     }
 
     @PostMapping(value = "/edit-password.json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -88,7 +86,7 @@ public class UserController {
             @RequestParam String password
     ) {
         userService.editPassword(id, password);
-        return Success.create().data(true).build();
+        return ResponseEntity.ok(true);
     }
 
     @GetMapping(value = "/delete.json", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -96,6 +94,6 @@ public class UserController {
             @RequestParam Integer id
     ) {
         userService.delete(id);
-        return Success.create().data(true).build();
+        return ResponseEntity.ok(true);
     }
 }

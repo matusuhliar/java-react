@@ -5,10 +5,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
-import sk.uhliar.backend.sample.utils.Fail;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -24,7 +24,7 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
 		response.setHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 		ObjectMapper mapper = new ObjectMapper();
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
-		response.getWriter().write(mapper.writeValueAsString(Fail.create().message("UNAUTHORIZED")));
+		response.getWriter().write(mapper.writeValueAsString(ResponseEntity.ok("UNAUTHORIZED")));
 		response.getWriter().flush();
 		response.getWriter().close();
 

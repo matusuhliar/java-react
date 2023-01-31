@@ -12,9 +12,9 @@ import org.springframework.web.context.request.WebRequest;
 public class ExceptionHandlingController {
     Logger logger = LoggerFactory.getLogger(ExceptionHandlingController.class);
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Fail> handleExceptions(Exception exception, WebRequest webRequest) {
+    public ResponseEntity<String> handleExceptions(Exception exception, WebRequest webRequest) {
       logger.error("Exception occurred during request",exception);
-      return Fail.create().message("Exception occurred: " + exception.getMessage()).cause(exception).build();
+      return ResponseEntity.internalServerError().body("Exception occurred: " + exception.getMessage());
     }
 }
 

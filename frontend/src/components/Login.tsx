@@ -17,7 +17,7 @@ export default function Login() {
         form.set("username",username);
         form.set("password",password);
         axiosClient().post('/authenticate.json',form,{headers:{ "Content-Type": "multipart/form-data" }}).then(response=>{
-            setToken(response.data.data.token,response.data.data.refreshToken);
+            setToken(response.data.token,response.data.refreshToken);
             setDisabled(false);
             window.location.reload();
         }).catch(e=>{

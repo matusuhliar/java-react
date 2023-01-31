@@ -35,7 +35,7 @@ export const fetchUsersAsync = createAsyncThunk(
         dispatch(startLoading());
         const response = await axiosClient().get('/users/users.json');
         dispatch(endLoading());
-        return response.data
+        return response
     }
 );
 

@@ -70,8 +70,8 @@ export const axiosClient = () => {
                         })
                         .then(res => {
                             if (res.status === 200) {
-                                setToken(res.data.data.token,res.data.data.refreshToken);
-                                originalRequest.headers['Authorization'] = `Bearer ${res.data.data.token}`;
+                                setToken(res.data.token,res.data.refreshToken);
+                                originalRequest.headers['Authorization'] = `Bearer ${res.data.token}`;
                                 return axios(originalRequest);
                             }
                         })

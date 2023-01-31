@@ -8,7 +8,6 @@ import sk.uhliar.backend.sample.modules.users.model.ApiUser;
 import sk.uhliar.backend.sample.modules.users.model.ApiUserRole;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -17,17 +16,16 @@ public class UserDao {
     @PersistenceContext
     private EntityManager em;
 
-
     public List<ApiUser> findAll() {
-        return em.createQuery("SELECT U FROM api_user U ORDER BY U.id ASC").getResultList();
+        return (List<ApiUser>) em.createQuery("SELECT U FROM api_user U ORDER BY U.id ASC").getResultList();
     }
 
     public ApiUserRole getRoleById(Integer id) {
-        return em.find(ApiUserRole.class,id);
+        return (ApiUserRole) em.find(ApiUserRole.class,id);
     }
 
     public List<ApiUserRole> findAllRoles() {
-        return em.createQuery("SELECT R FROM api_role R").getResultList();
+        return (List<ApiUserRole>) em.createQuery("SELECT R FROM api_role R").getResultList();
     }
 
     public ApiUser findByEmail(String username) {

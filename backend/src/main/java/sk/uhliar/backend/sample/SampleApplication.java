@@ -16,9 +16,6 @@ import sk.uhliar.backend.sample.modules.users.model.ApiUserRole;
 @EntityScan(basePackages = {"sk.uhliar"})
 public class SampleApplication {
 
-	@PersistenceContext
-	private EntityManager em;
-
 	public static void main(String[] args) {
 		SpringApplication.run(SampleApplication.class, args);
 	}

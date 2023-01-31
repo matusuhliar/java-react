@@ -7,9 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import sk.uhliar.backend.sample.utils.Success;
 
 @RestController
 @CrossOrigin
@@ -32,7 +30,7 @@ public class JwtAuthenticationController {
 			jwtTokenUtil.generateRefreshToken(username)
 		);
 		userDetailsService.storeTokens(username,tokens);
-		return Success.create().data(tokens).build();
+		return ResponseEntity.ok(tokens);
 	}
 
 	@RequestMapping(value = "/authenticate-refresh.json",produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
@@ -44,7 +42,7 @@ public class JwtAuthenticationController {
 					jwtTokenUtil.generateRefreshToken(username)
 			);
 			userDetailsService.storeTokens(username,tokens);
-			return Success.create().data(tokens).build();
+			return ResponseEntity.ok(tokens);
 		}
 		throw new Exception("TOKEN_EXPIRED");
 	}

@@ -67,8 +67,8 @@ export function UserEditDetail() {
             axiosClient().get('/users/roles.json'),
             axiosClient().get('/users/user.json?id=' + id)]
         ).then((values) => {
-            const user = values[1].data.data;
-            setRoles(values[0].data.data);
+            const user = values[1].data;
+            setRoles(values[0].data);
             reset(
                 {role: "" + user.roles[0]?.id, password: "", confirmPassword: "", name: user.name, email: user.email}
             )
@@ -183,8 +183,8 @@ export function UserEditPassword() {
             axiosClient().get('/users/roles.json'),
             axiosClient().get('/users/user.json?id=' + id)]
         ).then((values) => {
-            const user = values[1].data.data;
-            setRoles(values[0].data.data);
+            const user = values[1].data;
+            setRoles(values[0].data);
             reset(
                 {role: "" + user.roles[0]?.id, password: "", confirmPassword: "", name: user.name, email: user.email}
             )
